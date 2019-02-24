@@ -3,6 +3,7 @@ package it61.springlabs.yetanotherlab.Models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,12 +12,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "vps")
 @Where(clause = "is_deleted=0")
-public final class VPS {
+public final class Vps {
     @Id
     @Column(name ="id", insertable = false, updatable = false)
     private UUID id;
 
     @JoinColumn
+    @Nullable
     @ManyToOne
     private User owner;
 
@@ -34,11 +36,17 @@ public final class VPS {
     @Column
     private Boolean is_deleted;
 
-    protected VPS(){}
+    protected Vps(){}
 
-    public VPS(User owner, String operatingSystem) {
+    public Vps(User owner, String operatingSystem) {
         this.id = UUID.randomUUID();
         this.owner = owner;
+        this.operatingSystem = operatingSystem;
+        this.is_deleted = false;
+    }
+
+    public Vps(String operatingSystem){
+        this.id = UUID.randomUUID();
         this.operatingSystem = operatingSystem;
         this.is_deleted = false;
     }
@@ -67,17 +75,17 @@ public final class VPS {
         return is_deleted;
     }
 
-    public VPS setOwner(User owner) {
+    public Vps setOwner(User owner) {
         this.owner = owner;
         return this;
     }
 
-    public VPS setOperatingSystem(String operatingSystem) {
+    public Vps setOperatingSystem(String operatingSystem) {
         this.operatingSystem = operatingSystem;
         return this;
     }
 
-    public VPS setIs_deleted(Boolean is_deleted) {
+    public Vps setIs_deleted(Boolean is_deleted) {
         this.is_deleted = is_deleted;
         return this;
     }

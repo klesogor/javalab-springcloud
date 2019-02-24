@@ -5,6 +5,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -32,11 +33,11 @@ public final class User {
     private Boolean is_deleted;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private Set<VPS> servers;
+    private Set<Vps> servers;
 
     protected User(){}
 
-    public User(String username, String description, VPS ...servers) {
+    public User(String username, String description, Vps...servers) {
         this.id = UUID.randomUUID();
         this.username = username;
         this.description = description;
@@ -85,11 +86,11 @@ public final class User {
         return this;
     }
 
-    public Set<VPS> getServers() {
+    public Set<Vps> getServers() {
         return servers;
     }
 
-    public User setServers(VPS ...servers) {
+    public User setServers(Vps...servers) {
         this.servers = this.servers = Stream.of(servers).collect(Collectors.toSet());
         this.servers.forEach(x -> x.setOwner(this));
         return this;
