@@ -1,11 +1,11 @@
 package it61.springlabs.yetanotherlab.Models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 public final class User {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "uuid-char")
     private UUID id;
     @Column
     private String username;

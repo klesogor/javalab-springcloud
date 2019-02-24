@@ -1,6 +1,7 @@
 package it61.springlabs.yetanotherlab.Models;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import org.springframework.lang.Nullable;
@@ -15,6 +16,7 @@ import java.util.UUID;
 public final class Vps {
     @Id
     @Column(name ="id", insertable = false, updatable = false)
+    @Type(type = "uuid-char")
     private UUID id;
 
     @JoinColumn
