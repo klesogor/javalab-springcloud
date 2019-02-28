@@ -1,22 +1,25 @@
 package it61.springlabs.yetanotherlab.Controllers;
 
 import it61.springlabs.yetanotherlab.DTO.UserDTO;
+import it61.springlabs.yetanotherlab.DTO.UserResponse;
+import it61.springlabs.yetanotherlab.DTO.VPSResponse;
 import it61.springlabs.yetanotherlab.Exceptions.DomainException;
 import it61.springlabs.yetanotherlab.Exceptions.ValidationException;
 import it61.springlabs.yetanotherlab.Models.User;
+import it61.springlabs.yetanotherlab.Models.Vps;
 import it61.springlabs.yetanotherlab.Services.Contracts.UserCrudServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/users")
-public class UserController implements CRUDControllerInterface<User, UserDTO> {
+public final class UserController implements CRUDControllerInterface<UserResponse, UserDTO> {
 
-    UserCrudServiceInterface service;
+    private UserCrudServiceInterface service;
 
     @Autowired
     public UserController(UserCrudServiceInterface service) {
@@ -24,43 +27,61 @@ public class UserController implements CRUDControllerInterface<User, UserDTO> {
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping("/api/v1/users")
     @ResponseBody
-    public Iterable<User> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10") Integer perPage) throws DomainException {
-        return service.Paginated(perPage, page - 1);
+    public Iterable<UserResponse> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10") Integer perPage) throws DomainException {
+        Iterable<User> users = service.Paginated(perPage, page - 1);
+        ArrayList<UserResponse> res = new ArrayList<>();
+        for (User user: users) {
+            res.add(this.userToDTO(user));
+        }
+
+        return res;
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/users/{id}")
     @ResponseBody
-    public User findById(@PathVariable UUID id) throws DomainException {
-        return service.FindById(id);
+    public UserResponse findById(@PathVariable UUID id) throws DomainException {
+        return this.userToDTO(service.FindById(id));
     }
 
     @Override
-    @PostMapping("/")
+    @PostMapping("/api/v1/users")
     @ResponseBody
-    public User create(@Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
+    public UserResponse create(@Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
 
-        return service.Create(dto);
+        return this.userToDTO(service.Create(dto));
     }
 
     @Override
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/users/{id}")
     @ResponseBody
-    public User update(@PathVariable UUID id, @Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
+    public UserResponse update(@PathVariable UUID id, @Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
 
-        return service.Update(id, dto);
+        return this.userToDTO(service.Update(id, dto));
     }
 
+    @DeleteMapping("/api/v1/users/{id}")
     @Override
-    public void delete(UUID id) throws DomainException {
+    public void delete(@PathVariable UUID id) throws DomainException {
         service.Delete(id);
+    }
+
+    private UserResponse userToDTO(User user){
+        ArrayList<VPSResponse> vpsArr = new ArrayList<>();
+        if(user.getServers() != null) {
+            for (Vps vps : user.getServers()) {
+                vpsArr.add(new VPSResponse(vps.getId(), vps.getOperatingSystem()));
+            }
+        }
+
+        return new UserResponse(user.getId(),user.getUsername(),user.getDescription(), vpsArr);
     }
 }

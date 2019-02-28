@@ -8,12 +8,10 @@ public final class UserDTO {
     private String username;
     @NotNull
     private String description;
-    private UUID[] vps;
 
-    public UserDTO(String username, String description, UUID[] vps) {
+    public UserDTO(String username, String description) {
         this.username = username;
         this.description = description;
-        this.vps = vps;
     }
 
     public String getUsername() {
@@ -22,9 +20,5 @@ public final class UserDTO {
 
     public String getDescription() {
         return description;
-    }
-
-    public UUID[] getVps() {
-        return vps;
     }
 }

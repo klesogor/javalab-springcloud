@@ -1,5 +1,6 @@
 package it61.springlabs.yetanotherlab.Controllers;
 
+import it61.springlabs.yetanotherlab.DTO.VPSResponse;
 import it61.springlabs.yetanotherlab.DTO.VpsDTO;
 import it61.springlabs.yetanotherlab.Exceptions.DomainException;
 import it61.springlabs.yetanotherlab.Exceptions.ValidationException;
@@ -10,11 +11,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/vps")
-public final class VpsController implements CRUDControllerInterface<Vps, VpsDTO> {
+public final class VpsController implements CRUDControllerInterface<VPSResponse, VpsDTO> {
 
     private VpsService service;
 
@@ -24,45 +25,56 @@ public final class VpsController implements CRUDControllerInterface<Vps, VpsDTO>
     }
 
     @Override
-    @GetMapping("/")
+    @GetMapping("/api/v1/vps")
     @ResponseBody
-    public Iterable<Vps> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")  Integer perPage) throws DomainException {
-        return service.Paginated(perPage, page - 1);
+    public Iterable<VPSResponse> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")  Integer perPage) throws DomainException {
+        Iterable<Vps> vpsIterable = service.Paginated(perPage,page - 1);
+        ArrayList<VPSResponse> res = new ArrayList<>();
+        for (Vps vps: vpsIterable) {
+            res.add(vpsToDTO(vps));
+        }
+
+        return res;
     }
 
     @Override
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public Vps findById(@PathVariable(name = "id") UUID id) throws DomainException {
-        return service.FindById(id);
+    public VPSResponse findById(@PathVariable(name = "id") UUID id) throws DomainException {
+        return vpsToDTO(service.FindById(id));
     }
 
     @Override
-    @PostMapping("/")
+    @PostMapping("/api/v1/vps")
     @ResponseBody
-    public Vps create(@Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
+    public VPSResponse create(@Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
 
-        return service.Create(dto);
+        return vpsToDTO(service.Create(dto));
     }
 
     @Override
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public Vps update(@PathVariable(name = "id") UUID id, @Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
+    public VPSResponse update(@PathVariable(name = "id") UUID id, @Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
 
-        return service.Update(id,dto);
+        return vpsToDTO(service.Update(id,dto));
     }
 
     @Override
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/v1/vps/{id}")
     @ResponseBody
     public void delete(@PathVariable(name = "id") UUID id) throws DomainException {
         service.Delete(id);
     }
+
+    private VPSResponse vpsToDTO(Vps vps) {
+        return new VPSResponse(vps.getId(), vps.getOperatingSystem());
+    }
+
 }

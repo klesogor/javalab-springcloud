@@ -1,6 +1,6 @@
 package it61.springlabs.yetanotherlab.DTO;
 
-public class ExceptionDTO {
+public final class ExceptionDTO {
     private String error;
     private Integer code;
 

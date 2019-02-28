@@ -21,7 +21,7 @@ public final class Vps {
 
     @JoinColumn
     @Nullable
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
 
     @Column

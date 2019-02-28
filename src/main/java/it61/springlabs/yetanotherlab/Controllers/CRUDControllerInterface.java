@@ -5,10 +5,10 @@ import org.springframework.validation.BindingResult;
 
 import java.util.UUID;
 
-public interface CRUDControllerInterface<T,TDTO> {
-    Iterable<T> getAll(Integer page,Integer perPage) throws DomainException;
-    T findById(UUID id) throws DomainException;
-    T create(TDTO dto, BindingResult binding) throws DomainException;
-    T update( UUID id ,TDTO dto, BindingResult binding) throws DomainException;
+public interface CRUDControllerInterface<OUTDTO,INDTO> {
+    Iterable<OUTDTO> getAll(Integer page,Integer perPage) throws DomainException;
+    OUTDTO findById(UUID id) throws DomainException;
+    OUTDTO create(INDTO dto, BindingResult binding) throws DomainException;
+    OUTDTO update( UUID id ,INDTO dto, BindingResult binding) throws DomainException;
     void delete(UUID id) throws DomainException;
 }

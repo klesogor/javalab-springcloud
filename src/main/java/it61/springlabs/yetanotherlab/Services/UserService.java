@@ -47,8 +47,7 @@ public final class UserService implements UserCrudServiceInterface {
         User user = new User
                 (
                     dto.getUsername(),
-                    dto.getDescription(),
-                    getVpsById(dto.getVps())
+                    dto.getDescription()
                 );
         userRepository.save(user);
 
@@ -60,7 +59,6 @@ public final class UserService implements UserCrudServiceInterface {
         User user = FindById(id);
         user.setUsername(dto.getUsername());
         user.setDescription(dto.getDescription());
-        user.setServers(getVpsById(dto.getVps()));
         userRepository.save(user);
 
         return user;

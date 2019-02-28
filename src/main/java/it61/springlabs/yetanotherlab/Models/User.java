@@ -38,11 +38,10 @@ public final class User {
 
     protected User(){}
 
-    public User(String username, String description, Vps...servers) {
+    public User(String username, String description) {
         this.id = UUID.randomUUID();
         this.username = username;
         this.description = description;
-        this.setServers(servers);
         this.is_deleted = false;
 
     }
@@ -89,11 +88,5 @@ public final class User {
 
     public Set<Vps> getServers() {
         return servers;
-    }
-
-    public User setServers(Vps...servers) {
-        this.servers = this.servers = Stream.of(servers).collect(Collectors.toSet());
-        this.servers.forEach(x -> x.setOwner(this));
-        return this;
     }
 }
