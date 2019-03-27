@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 
 @Entity
 @Table(name = "users")
-@Where(clause = "is_deleted=0")
 public final class User {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -25,24 +24,27 @@ public final class User {
     @Column
     private String description;
     @Column
+    private String phone;
+    @Column
+    private String secret;
+    @Column
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @Column
     @CreationTimestamp
     private LocalDateTime createdAt;
-    @Column
-    private Boolean is_deleted;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Vps> servers;
 
     protected User(){}
 
-    public User(String username, String description) {
+    public User(String username, String description, String phone, String secret) {
         this.id = UUID.randomUUID();
         this.username = username;
         this.description = description;
-        this.is_deleted = false;
+        this.phone = phone;
+        this.secret = secret;
 
     }
 
@@ -68,15 +70,6 @@ public final class User {
         return createdAt;
     }
 
-    public Boolean getIs_deleted() {
-        return is_deleted;
-    }
-
-    public User setIs_deleted(Boolean is_deleted) {
-        this.is_deleted = is_deleted;
-        return this;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -88,5 +81,23 @@ public final class User {
 
     public Set<Vps> getServers() {
         return servers;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public User setSecret(String secret) {
+        this.secret = secret;
+        return this;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public User setPhone(String phone) {
+        this.phone = phone;
+        return this;
     }
 }

@@ -74,7 +74,7 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     }
 
     private VPSResponse vpsToDTO(Vps vps) {
-        return new VPSResponse(vps.getId(), vps.getOperatingSystem());
+        return new VPSResponse(vps.getId(), vps.getOperatingSystem(), vps.getCPUCount(), vps.getCPURate(), vps.getRAM());
     }
 
 }

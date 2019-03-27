@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class VpsService implements VPSCrudService {
+public final class VpsService implements VPSCrudService {
     private VPSRepository repository;
     private UserRepository userRepository;
 
@@ -32,7 +32,7 @@ public class VpsService implements VPSCrudService {
 
     @Override
     public void Delete(UUID id) throws DomainException {
-        repository.save(FindById(id).setIs_deleted(true));
+        repository.deleteById(id);
     }
 
     @Override
@@ -47,7 +47,14 @@ public class VpsService implements VPSCrudService {
                 : userRepository.findById(
                         data.getOwner()
         ).orElseThrow(()-> NotFoundException.of(data.getOwner(),"user"));
-        Vps vps = new Vps(user, data.getOperatingSystem());
+        Vps vps = new Vps
+                (
+                        user,
+                        data.getOperatingSystem(),
+                        data.getCPUCount(),
+                        data.getCPURate(),
+                        data.getRAM()
+                );
         repository.save(vps);
 
         return vps;
@@ -63,6 +70,10 @@ public class VpsService implements VPSCrudService {
         ).orElseThrow(()-> NotFoundException.of(data.getOwner(),"user"));
         vps.setOwner(user);
         vps.setOperatingSystem(data.getOperatingSystem());
+        vps.setCPUCount(data.getCPUCount());
+        vps.setCPURate(data.getCPURate());
+        vps.setRAM(data.getRAM());
+
         repository.save(vps);
 
         return vps;

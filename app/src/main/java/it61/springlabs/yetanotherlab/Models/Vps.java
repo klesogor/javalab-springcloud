@@ -3,7 +3,6 @@ package it61.springlabs.yetanotherlab.Models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -12,7 +11,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "vps")
-@Where(clause = "is_deleted=0")
 public final class Vps {
     @Id
     @Column(name ="id", insertable = false, updatable = false)
@@ -28,6 +26,16 @@ public final class Vps {
     private String operatingSystem;
 
     @Column
+    private Integer CPUCount;
+
+    @Column
+    private Double CPURate;
+
+    @Column
+    private Double RAM;
+
+
+    @Column
     @CreationTimestamp
     private LocalDateTime createdAt;
 
@@ -35,22 +43,20 @@ public final class Vps {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @Column
-    private Boolean is_deleted;
-
     protected Vps(){}
 
-    public Vps(User owner, String operatingSystem) {
+    public Vps(User owner, String operatingSystem,Integer cpuCount, Double cpuRate, Double RAM ) {
         this.id = UUID.randomUUID();
         this.owner = owner;
         this.operatingSystem = operatingSystem;
-        this.is_deleted = false;
+        this.CPURate = cpuRate;
+        this.CPUCount = cpuCount;
+        this.RAM = RAM;
     }
 
     public Vps(String operatingSystem){
         this.id = UUID.randomUUID();
         this.operatingSystem = operatingSystem;
-        this.is_deleted = false;
     }
 
     public UUID getId() {
@@ -73,10 +79,6 @@ public final class Vps {
         return updatedAt;
     }
 
-    public Boolean getIs_deleted() {
-        return is_deleted;
-    }
-
     public Vps setOwner(User owner) {
         this.owner = owner;
         return this;
@@ -87,8 +89,30 @@ public final class Vps {
         return this;
     }
 
-    public Vps setIs_deleted(Boolean is_deleted) {
-        this.is_deleted = is_deleted;
+    public Integer getCPUCount() {
+        return CPUCount;
+    }
+
+    public Vps setCPUCount(Integer CPUCount) {
+        this.CPUCount = CPUCount;
+        return this;
+    }
+
+    public Double getCPURate() {
+        return CPURate;
+    }
+
+    public Vps setCPURate(Double CPURate) {
+        this.CPURate = CPURate;
+        return this;
+    }
+
+    public Double getRAM() {
+        return RAM;
+    }
+
+    public Vps setRAM(Double RAM) {
+        this.RAM = RAM;
         return this;
     }
 }

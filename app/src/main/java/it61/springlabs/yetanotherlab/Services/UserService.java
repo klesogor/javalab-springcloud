@@ -34,7 +34,7 @@ public final class UserService implements UserCrudServiceInterface {
 
     @Override
     public void Delete(UUID id) throws DomainException {
-        userRepository.save(FindById(id).setIs_deleted(true));
+        userRepository.deleteById(id);
     }
 
     @Override
@@ -47,7 +47,9 @@ public final class UserService implements UserCrudServiceInterface {
         User user = new User
                 (
                     dto.getUsername(),
-                    dto.getDescription()
+                    dto.getDescription(),
+                    dto.getPhone(),
+                    dto.getSecret()
                 );
         userRepository.save(user);
 
@@ -59,6 +61,8 @@ public final class UserService implements UserCrudServiceInterface {
         User user = FindById(id);
         user.setUsername(dto.getUsername());
         user.setDescription(dto.getDescription());
+        user.setSecret(dto.getSecret());
+        user.setPhone(dto.getPhone());
         userRepository.save(user);
 
         return user;

@@ -8,10 +8,16 @@ public final class UserDTO {
     private String username;
     @NotNull
     private String description;
+    @NotNull
+    private String phone;
+    @NotNull
+    private String secret;
 
-    public UserDTO(String username, String description) {
+    public UserDTO(String username, String description, String phone, String secret) {
         this.username = username;
         this.description = description;
+        this.phone = phone;
+        this.secret = secret;
     }
 
     public String getUsername() {
@@ -20,5 +26,13 @@ public final class UserDTO {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 }

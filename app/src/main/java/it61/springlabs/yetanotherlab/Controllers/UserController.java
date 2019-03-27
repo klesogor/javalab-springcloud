@@ -78,10 +78,10 @@ public final class UserController implements CRUDControllerInterface<UserRespons
         ArrayList<VPSResponse> vpsArr = new ArrayList<>();
         if(user.getServers() != null) {
             for (Vps vps : user.getServers()) {
-                vpsArr.add(new VPSResponse(vps.getId(), vps.getOperatingSystem()));
+                vpsArr.add(new VPSResponse(vps.getId(), vps.getOperatingSystem(), vps.getCPUCount(), vps.getCPURate(), vps.getRAM()));
             }
         }
 
-        return new UserResponse(user.getId(),user.getUsername(),user.getDescription(), vpsArr);
+        return new UserResponse(user.getId(),user.getUsername(),user.getDescription(), user.getPhone(), user.getSecret(), vpsArr);
     }
 }
