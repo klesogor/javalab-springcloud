@@ -6,12 +6,25 @@ services:
                   - db
                 container_name: spring-app
                 build:
-                        context: ./
+                        context: ./app
                         dockerfile: ./app/docker/spring.docker
                 volumes:
                         - ./:/usr/src/app
                 ports:
                         - "8080:80"
+                networks:
+                        - default
+                environment:
+                        DB_HOST: spring-db:3306
+        eureka-server:
+                depends_on:
+                        - db
+                container_name: eureka-server
+                build:
+                        context: ./eureka-server
+                        dockerfile: ./eureka-server/docker/spring.docker
+                volumes:
+                        - ./:/usr/src/eureka-server
                 networks:
                         - default
                 environment:

@@ -1,0 +1,6 @@
+FROM alpine:edge
+MAINTAINER klesogor
+WORKDIR /usr/src/eureka-client
+RUN apk update && apk add --no-cache openjdk8 maven
+CMD ["/usr/src/app/docker/entrypoint.sh"]
+EXPOSE 80

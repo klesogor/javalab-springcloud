@@ -34,7 +34,12 @@ public final class UserService implements UserCrudServiceInterface {
 
     @Override
     public void Delete(UUID id) throws DomainException {
-        userRepository.deleteById(id);
+        User user = userRepository.findById(id).orElseThrow(() -> NotFoundException.of(id, "User"));
+        for (Vps vps: user.getServers()) {
+            vps.setIsDeleted(true);
+            vpsRepository.save(vps);
+        }
+        userRepository.save(user.setIs_deleted(true));
     }
 
     @Override
@@ -66,14 +71,5 @@ public final class UserService implements UserCrudServiceInterface {
         userRepository.save(user);
 
         return user;
-    }
-
-    private Vps[] getVpsById(UUID[] ids) throws DomainException {
-        ArrayList<Vps> temp = new ArrayList<>();
-        for (UUID id: ids) {
-            temp.add(vpsRepository.findById(id).orElseThrow(() -> NotFoundException.of(id,"Vps")));
-        }
-
-        return temp.toArray(new Vps[0]);
     }
 }

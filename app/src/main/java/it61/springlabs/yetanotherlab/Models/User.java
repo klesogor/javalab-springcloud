@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 @Entity
 @Table(name = "users")
+@Where(clause = "is_deleted = 0")
 public final class User {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -33,6 +34,8 @@ public final class User {
     @Column
     @CreationTimestamp
     private LocalDateTime createdAt;
+    @Column
+    private boolean is_deleted = false;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private Set<Vps> servers;
@@ -45,7 +48,6 @@ public final class User {
         this.description = description;
         this.phone = phone;
         this.secret = secret;
-
     }
 
     public UUID getId() {
@@ -98,6 +100,15 @@ public final class User {
 
     public User setPhone(String phone) {
         this.phone = phone;
+        return this;
+    }
+
+    public boolean isIs_deleted() {
+        return is_deleted;
+    }
+
+    public User setIs_deleted(boolean is_deleted) {
+        this.is_deleted = is_deleted;
         return this;
     }
 }

@@ -3,6 +3,7 @@ package it61.springlabs.yetanotherlab.Models;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "vps")
+@Where(clause = "is_deleted = 0")
 public final class Vps {
     @Id
     @Column(name ="id", insertable = false, updatable = false)
@@ -33,6 +35,8 @@ public final class Vps {
 
     @Column
     private Double RAM;
+    @Column
+    private boolean is_deleted = false;
 
 
     @Column
@@ -113,6 +117,15 @@ public final class Vps {
 
     public Vps setRAM(Double RAM) {
         this.RAM = RAM;
+        return this;
+    }
+
+    public boolean getIsDeleted() {
+        return  this.is_deleted;
+    }
+
+    public Vps setIsDeleted(boolean is_deleted) {
+        this.is_deleted = true;
         return this;
     }
 }
