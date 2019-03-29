@@ -49,7 +49,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @Override
     @PostMapping("/api/v1/users")
     @ResponseBody
-    public UserResponse create(@Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
+    public UserResponse create(@Valid @RequestBody UserDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -60,7 +60,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @Override
     @PutMapping("/api/v1/users/{id}")
     @ResponseBody
-    public UserResponse update(@PathVariable UUID id, @Valid @ModelAttribute UserDTO dto, BindingResult binding) throws DomainException {
+    public UserResponse update(@PathVariable UUID id, @Valid @RequestBody UserDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }

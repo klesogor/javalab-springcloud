@@ -1,6 +1,4 @@
 #!/bin/sh
-/usr/bin/mvn package -f /usr/src/app -s /usr/src/app/docker/settings.xml
-mkdir -p /var/www/eureka-client
-cp /usr/src/eureka-client/target/eureka-client-lab.jar /var/www/spring-app
-sleep 10
-/usr/bin/java -jar /var/www/eureka-client/eureka-client-lab.jar
+sleep 20
+/usr/bin/mvn package -f /usr/src/eureka-client -s /usr/src/eureka-client/docker/settings.xml
+/usr/bin/java -jar /usr/src/eureka-client/target/eureka-client-lab.jar

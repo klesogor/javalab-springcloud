@@ -47,7 +47,7 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @Override
     @PostMapping("/api/v1/vps")
     @ResponseBody
-    public VPSResponse create(@Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
+    public VPSResponse create(@Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -58,7 +58,7 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @Override
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public VPSResponse update(@PathVariable(name = "id") UUID id, @Valid @ModelAttribute VpsDTO dto, BindingResult binding) throws DomainException {
+    public VPSResponse update(@PathVariable(name = "id") UUID id, @Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }

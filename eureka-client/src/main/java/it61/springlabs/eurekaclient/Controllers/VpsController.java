@@ -3,6 +3,8 @@ package it61.springlabs.eurekaclient.Controllers;
 import it61.springlabs.eurekaclient.DTO.VPSResponse;
 import it61.springlabs.eurekaclient.DTO.VpsDTO;
 import it61.springlabs.eurekaclient.Services.HostingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;

@@ -8,37 +8,38 @@ public final class VpsDTO {
     private String operatingSystem;
     private UUID owner_id;
     @NotNull
-    private Integer CPUCount;
+    private Integer CpuCount;
     @NotNull
-    private Double CPURate;
+    private Double  CpuRate;
     @NotNull
-    private Double RAM;
+    private Double Ram;
 
     public VpsDTO(String operatingSystem, UUID owner, Integer cpuCount, Double cpuRate, Double ram) {
         this.operatingSystem = operatingSystem;
         this.owner_id = owner;
-        this.CPUCount = cpuCount;
-        this.CPURate = cpuRate;
-        this.RAM = ram;
+        this.CpuCount = cpuCount;
+        this.CpuRate = cpuRate;
+        this.Ram = ram;
     }
 
     public String getOperatingSystem() {
         return operatingSystem;
     }
 
-    public UUID getOwner() {
+    public UUID  getOwner() {
         return owner_id;
     }
 
-    public Integer getCPUCount() {
-        return CPUCount;
+    public Integer getCpuCount() {
+        return CpuCount;
     }
 
-    public Double getCPURate() {
-        return CPURate;
+    public Double  getCpuRate() {
+        return CpuRate;
     }
 
-    public Double getRAM() {
-        return RAM;
+    public Double getRam() {
+        return Ram;
     }
+
 }

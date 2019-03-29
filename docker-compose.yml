@@ -3,15 +3,14 @@ version: '3'
 services:
         spring-app:
                 depends_on:
-                  - db
+                        - eureka-server
                 container_name: spring-app
                 build:
                         context: ./app
-                        dockerfile: ./app/docker/spring.docker
+                        dockerfile: docker/spring.docker
                 volumes:
-                        - ./:/usr/src/app
-                ports:
-                        - "8080:80"
+                        - ./app:/usr/src/app
+                        - maven_cache:/usr/src/.maven-cache
                 networks:
                         - default
                 environment:
@@ -22,9 +21,28 @@ services:
                 container_name: eureka-server
                 build:
                         context: ./eureka-server
-                        dockerfile: ./eureka-server/docker/spring.docker
+                        dockerfile: docker/spring.docker
                 volumes:
-                        - ./:/usr/src/eureka-server
+                        - ./eureka-server:/usr/src/eureka-server
+                        - maven_cache:/usr/src/.maven-cache
+                networks:
+                        - default
+                ports:
+                  - "8761:8761"
+                environment:
+                        DB_HOST: spring-db:3306
+        eureka-client:
+                depends_on:
+                        - eureka-server
+                container_name: eureka-client
+                build:
+                        context: ./eureka-client
+                        dockerfile: docker/spring.docker
+                volumes:
+                        - ./eureka-client:/usr/src/eureka-client
+                        - maven_cache:/usr/src/.maven-cache
+                ports:
+                        - "8080:80"
                 networks:
                         - default
                 environment:
@@ -32,8 +50,8 @@ services:
         db:
                 container_name: spring-db
                 build:
-                        context: ./
-                        dockerfile: ./app/docker/database.docker
+                        context: ./docker
+                        dockerfile: database.docker
                 volumes:
                         - db_data:/var/lib/mysql
                 environment:
@@ -43,3 +61,4 @@ services:
                         - "33061:3306"
 volumes:
         db_data:
+        maven_cache:

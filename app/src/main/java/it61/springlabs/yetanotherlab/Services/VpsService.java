@@ -51,9 +51,9 @@ public final class VpsService implements VPSCrudService {
                 (
                         user,
                         data.getOperatingSystem(),
-                        data.getCPUCount(),
-                        data.getCPURate(),
-                        data.getRAM()
+                        data.getCpuCount(),
+                        data.getCpuRate(),
+                        data.getRam()
                 );
         repository.save(vps);
 
@@ -70,9 +70,9 @@ public final class VpsService implements VPSCrudService {
         ).orElseThrow(()-> NotFoundException.of(data.getOwner(),"user"));
         vps.setOwner(user);
         vps.setOperatingSystem(data.getOperatingSystem());
-        vps.setCPUCount(data.getCPUCount());
-        vps.setCPURate(data.getCPURate());
-        vps.setRAM(data.getRAM());
+        vps.setCPUCount(data.getCpuCount());
+        vps.setCPURate(data.getCpuRate());
+        vps.setRAM(data.getRam());
 
         repository.save(vps);
 
