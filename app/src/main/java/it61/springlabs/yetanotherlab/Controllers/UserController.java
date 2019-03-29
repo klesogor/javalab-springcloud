@@ -8,7 +8,11 @@ import it61.springlabs.yetanotherlab.Exceptions.ValidationException;
 import it61.springlabs.yetanotherlab.Models.User;
 import it61.springlabs.yetanotherlab.Models.Vps;
 import it61.springlabs.yetanotherlab.Services.Contracts.UserCrudServiceInterface;
+import org.omg.CORBA.Environment;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +24,9 @@ import java.util.UUID;
 public final class UserController implements CRUDControllerInterface<UserResponse, UserDTO> {
 
     private UserCrudServiceInterface service;
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Value("${app-name}")
+    private String appName;
 
     @Autowired
     public UserController(UserCrudServiceInterface service) {
@@ -30,6 +37,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @GetMapping("/api/v1/users")
     @ResponseBody
     public Iterable<UserResponse> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10") Integer perPage) throws DomainException {
+        logger.info("Request incoming to app: " + appName);
         Iterable<User> users = service.Paginated(perPage, page - 1);
         ArrayList<UserResponse> res = new ArrayList<>();
         for (User user: users) {
@@ -43,6 +51,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @GetMapping("/api/v1/users/{id}")
     @ResponseBody
     public UserResponse findById(@PathVariable UUID id) throws DomainException {
+        logger.info("Request incoming to app: " + appName);
         return this.userToDTO(service.FindById(id));
     }
 
@@ -50,6 +59,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @PostMapping("/api/v1/users")
     @ResponseBody
     public UserResponse create(@Valid @RequestBody UserDTO dto, BindingResult binding) throws DomainException {
+        logger.info("Request incoming to app: " + appName);
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -61,6 +71,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @PutMapping("/api/v1/users/{id}")
     @ResponseBody
     public UserResponse update(@PathVariable UUID id, @Valid @RequestBody UserDTO dto, BindingResult binding) throws DomainException {
+        logger.info("Request incoming to app: " + appName);
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -71,6 +82,7 @@ public final class UserController implements CRUDControllerInterface<UserRespons
     @DeleteMapping("/api/v1/users/{id}")
     @Override
     public void delete(@PathVariable UUID id) throws DomainException {
+        logger.info("Request incoming to app: " + appName);
         service.Delete(id);
     }
 

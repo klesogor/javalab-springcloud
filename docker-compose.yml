@@ -15,6 +15,22 @@ services:
                         - default
                 environment:
                         DB_HOST: spring-db:3306
+                        APP_NAME: test-app-1
+        spring-app-2:
+                depends_on:
+                        - eureka-server
+                container_name: spring-app-2
+                build:
+                        context: ./app
+                        dockerfile: docker/spring.docker
+                volumes:
+                        - ./app:/usr/src/app
+                        - maven_cache:/usr/src/.maven-cache
+                networks:
+                        - default
+                environment:
+                        DB_HOST: spring-db:3306
+                        APP_NAME: not-test-app-2
         eureka-server:
                 depends_on:
                         - db
