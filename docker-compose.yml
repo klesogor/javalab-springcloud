@@ -49,7 +49,7 @@ services:
                         DB_HOST: spring-db:3306
         eureka-client:
                 depends_on:
-                        - eureka-server
+                        - config-server
                 container_name: eureka-client
                 build:
                         context: ./eureka-client

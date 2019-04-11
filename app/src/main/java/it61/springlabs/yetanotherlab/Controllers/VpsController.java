@@ -21,9 +21,6 @@ import java.util.UUID;
 public final class VpsController implements CRUDControllerInterface<VPSResponse, VpsDTO> {
 
     private VpsService service;
-    private Logger logger = LoggerFactory.getLogger(getClass());
-    @Value("${app-name}")
-    private String appName;
 
     @Autowired
     public VpsController(VpsService service) {
@@ -34,7 +31,6 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @GetMapping("/api/v1/vps")
     @ResponseBody
     public Iterable<VPSResponse> getAll(@RequestParam(defaultValue = "1") Integer page,@RequestParam(defaultValue = "10")  Integer perPage) throws DomainException {
-        logger.info("Request incoming to app: " + appName);
         Iterable<Vps> vpsIterable = service.Paginated(perPage,page - 1);
         ArrayList<VPSResponse> res = new ArrayList<>();
         for (Vps vps: vpsIterable) {
@@ -48,7 +44,6 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @GetMapping("/api/v1/vps/{id}")
     @ResponseBody
     public VPSResponse findById(@PathVariable(name = "id") UUID id) throws DomainException {
-        logger.info("Request incoming to app: " + appName);
         return vpsToDTO(service.FindById(id));
     }
 
@@ -56,7 +51,6 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @PostMapping("/api/v1/vps")
     @ResponseBody
     public VPSResponse create(@Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
-        logger.info("Request incoming to app: " + appName);
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -68,7 +62,6 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
     public VPSResponse update(@PathVariable(name = "id") UUID id, @Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
-        logger.info("Request incoming to app: " + appName);
         if(binding.hasErrors()){
             throw ValidationException.of(binding);
         }
@@ -80,7 +73,6 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @DeleteMapping("/api/v1/vps/{id}")
     @ResponseBody
     public void delete(@PathVariable(name = "id") UUID id) throws DomainException {
-        logger.info("Request incoming to app: " + appName);
         service.Delete(id);
     }
 

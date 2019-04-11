@@ -1,5 +1,5 @@
 #!/bin/sh
-sleep 10
+sleep 15
 /usr/bin/mvn package -f /usr/src/app -s /usr/src/app/docker/settings.xml
 mkdir -p /var/www/spring-app
 cp /usr/src/app/target/yet-another-lab-lab.jar /var/www/spring-app
