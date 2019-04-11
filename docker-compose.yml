@@ -79,6 +79,14 @@ services:
                         - default
                 environment:
                         DB_HOST: spring-db:3306
+        rabbit-mq:
+                image: rabbitmq:3.8-rc
+                hostname: rabbit-mq
+                networks:
+                  - default
+                environment:
+                        RABBITMQ_ERLANG_COOKIE: secret
+                        RABBITMQ_NODENAME: rabbit@rabbit-mq
         db:
                 container_name: spring-db
                 build:

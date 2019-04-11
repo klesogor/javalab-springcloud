@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RefreshScope
 @RestController
 public class ConfigController {
-    @Value("app.message")
+    @Value("${app.message: Hello default}")
     private String greeting;
 
     @GetMapping("/hello")
