@@ -63,6 +63,22 @@ services:
                         - default
                 environment:
                         DB_HOST: spring-db:3306
+        config-server:
+                depends_on:
+                  - eureka-server
+                build:
+                  context: ./config-server
+                  dockerfile: docker/spring.docker
+                container_name: config-server
+                volumes:
+                        - ./config-server:/usr/src/config-server
+                        - maven_cache:/usr/src/.maven-cache
+                ports:
+                        - "8888:8888"
+                networks:
+                        - default
+                environment:
+                        DB_HOST: spring-db:3306
         db:
                 container_name: spring-db
                 build:
