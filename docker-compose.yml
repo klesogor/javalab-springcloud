@@ -50,6 +50,8 @@ services:
         eureka-client:
                 depends_on:
                         - config-server
+                        - rabbit-mq
+                        - eureka-server
                 container_name: eureka-client
                 build:
                         context: ./eureka-client
@@ -65,7 +67,7 @@ services:
                         DB_HOST: spring-db:3306
         config-server:
                 depends_on:
-                  - eureka-server
+                  - rabbit-mq
                 build:
                   context: ./config-server
                   dockerfile: docker/spring.docker
@@ -82,11 +84,27 @@ services:
         rabbit-mq:
                 image: rabbitmq:3.8-rc
                 hostname: rabbit-mq
+                container_name: rabbit-mq
                 networks:
                   - default
                 environment:
                         RABBITMQ_ERLANG_COOKIE: secret
                         RABBITMQ_NODENAME: rabbit@rabbit-mq
+        rabbit-mq-consumer:
+                depends_on:
+                  - rabbit-mq
+                  - eureka-client
+                build:
+                        context: ./queue-consumer
+                        dockerfile: docker/spring.docker
+                container_name: rabbit-mq-consumer
+                volumes:
+                        - ./queue-consumer:/usr/src/queue-consumer
+                        - maven_cache:/usr/src/.maven-cache
+                networks:
+                        - default
+                environment:
+                        DB_HOST: spring-db:3306
         db:
                 container_name: spring-db
                 build:

@@ -1,0 +1,6 @@
+FROM alpine:edge
+MAINTAINER klesogor
+WORKDIR /usr/src/app
+RUN apk update && apk add --no-cache openjdk8 maven
+CMD ["/usr/src/queue-consumer/docker/entrypoint.sh"]
+EXPOSE 80
