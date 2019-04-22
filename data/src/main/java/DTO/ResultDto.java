@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.App.DTO;
+package DTO;
 
 public class ResultDto<T> {
     private int code;
@@ -9,6 +9,9 @@ public class ResultDto<T> {
         this.code = code;
         this.error = error;
         this.data = data;
+    }
+
+    public ResultDto() {
     }
 
     public int getCode() {

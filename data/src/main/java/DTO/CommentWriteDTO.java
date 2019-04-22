@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.Domain.Comments.DTO;
+package DTO;
 
 import java.util.UUID;
 

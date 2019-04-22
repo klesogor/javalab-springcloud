@@ -1,13 +1,16 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Tickets;
 
+import DTO.TicketReadDto;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "admins")
+@Table(name = "tickets")
 public final class Ticket {
     @Id
     private UUID id;
@@ -18,6 +21,7 @@ public final class Ticket {
     private Date closedAt;
 
     public Ticket(UUID userId, UUID vpsId, String description, Date openedAt) {
+        id = UUID.randomUUID();
         this.userId = userId;
         this.vpsId = vpsId;
         this.description = description;
@@ -52,5 +56,16 @@ public final class Ticket {
 
     public void Close(Date closedAt) {
         this.closedAt = closedAt;
+    }
+
+    public  TicketReadDto ToDto(){
+        return new TicketReadDto(
+                getId(),
+                getVpsId(),
+                getDescription(),
+                getOpenedAt(),
+                getClosedAt(),
+                new ArrayList<>()
+        );
     }
 }

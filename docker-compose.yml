@@ -1,9 +1,18 @@
 version: '3'
 
 services:
+        build:
+                build:
+                        context: docker
+                        dockerfile: Build.docker
+                volumes:
+                        - ./:/usr/src/
+                        - maven_cache:/usr/maven-cache
+
         spring-app:
                 depends_on:
                         - eureka-server
+                        - build
                 container_name: spring-app
                 build:
                         context: ./app
@@ -19,6 +28,7 @@ services:
         spring-app-2:
                 depends_on:
                         - eureka-server
+                        - build
                 container_name: spring-app-2
                 build:
                         context: ./app
@@ -34,6 +44,7 @@ services:
         eureka-server:
                 depends_on:
                         - db
+                        - build
                 container_name: eureka-server
                 build:
                         context: ./eureka-server
@@ -52,6 +63,8 @@ services:
                         - config-server
                         - rabbit-mq
                         - eureka-server
+                        - rabbit-mq-consumer
+                        - build
                 container_name: eureka-client
                 build:
                         context: ./eureka-client
@@ -59,8 +72,9 @@ services:
                 volumes:
                         - ./eureka-client:/usr/src/eureka-client
                         - maven_cache:/usr/src/.maven-cache
+                        - /usr/java/maven:/usr/java/maven
                 ports:
-                        - "8080:80"
+                        - "8888:80"
                 networks:
                         - default
                 environment:
@@ -68,6 +82,7 @@ services:
         config-server:
                 depends_on:
                   - rabbit-mq
+                  - build
                 build:
                   context: ./config-server
                   dockerfile: docker/spring.docker
@@ -75,14 +90,12 @@ services:
                 volumes:
                         - ./config-server:/usr/src/config-server
                         - maven_cache:/usr/src/.maven-cache
-                ports:
-                        - "8888:8888"
                 networks:
                         - default
                 environment:
                         DB_HOST: spring-db:3306
         rabbit-mq:
-                image: rabbitmq:3.8-rc
+                image: rabbitmq:3.8.0-beta.3-management
                 hostname: rabbit-mq
                 container_name: rabbit-mq
                 networks:
@@ -90,10 +103,12 @@ services:
                 environment:
                         RABBITMQ_ERLANG_COOKIE: secret
                         RABBITMQ_NODENAME: rabbit@rabbit-mq
+                ports:
+                        - "15672:15672"
         rabbit-mq-consumer:
                 depends_on:
                   - rabbit-mq
-                  - eureka-client
+                  - build
                 build:
                         context: ./queue-consumer
                         dockerfile: docker/spring.docker
@@ -101,6 +116,7 @@ services:
                 volumes:
                         - ./queue-consumer:/usr/src/queue-consumer
                         - maven_cache:/usr/src/.maven-cache
+                        - /usr/java/maven:/usr/java/maven
                 networks:
                         - default
                 environment:

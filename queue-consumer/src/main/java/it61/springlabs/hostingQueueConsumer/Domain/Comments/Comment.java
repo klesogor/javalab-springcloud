@@ -13,7 +13,6 @@ public class Comment {
     private String text;
     private UUID fromId;
     @ManyToOne(targetEntity = Ticket.class)
-    @JoinColumn(table = "tickets", referencedColumnName = "id")
     private UUID ticketId;
 
     public Comment(String text, UUID from, UUID ticketId) {

@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.App.DTO;
+package DTO;
 
 public class InboundMessageDto<T> {
     private T data;
@@ -7,6 +7,9 @@ public class InboundMessageDto<T> {
     public InboundMessageDto(T data, String messageType) {
         this.data = data;
         this.messageType = messageType;
+    }
+
+    public InboundMessageDto() {
     }
 
     public T getData() {

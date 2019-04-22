@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.Domain.Tickets.DTO;
+package DTO;
 
 import java.util.Date;
 import java.util.UUID;
@@ -14,6 +14,9 @@ public final class TicketWriteDto {
         this.vpsId = vpsId;
         this.description = description;
         this.openedAt = openedAt == null ? new Date() : openedAt;
+    }
+
+    public TicketWriteDto() {
     }
 
     public UUID getUserId() {

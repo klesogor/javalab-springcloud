@@ -1,7 +1,7 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases;
 
+import DTO.TicketReadDto;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Repository.Contracts.CommentRepository;
-import it61.springlabs.hostingQueueConsumer.Domain.Tickets.DTO.TicketReadDto;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Repository.Contracts.TicketRepository;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class GetTickets {
 
     public Iterable<TicketReadDto> getTicketsForVps(UUID vpsId){
         return StreamSupport.stream(ticketRepository.getTicketsByVpsId(vpsId).spliterator(), false)
-                .map((Ticket ticket)-> TicketReadDto.Of(ticket, commentRepository))
+                .map((Ticket ticket)-> ticket.ToDto())
                 .collect(Collectors.toList());
     }
 }

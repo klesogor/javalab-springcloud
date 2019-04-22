@@ -1,7 +1,7 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Comments.UseCases;
 
+import DTO.CommentWriteDTO;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Comment;
-import it61.springlabs.hostingQueueConsumer.Domain.Comments.DTO.CommentWriteDTO;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Repository.Contracts.CommentRepository;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
