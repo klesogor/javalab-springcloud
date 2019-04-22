@@ -1,7 +1,5 @@
-package DTO;
+package it61.springlabs.data;
 
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -52,5 +50,33 @@ public final class TicketReadDto {
 
     public Iterable<CommentDTO> getComments() {
         return comments;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public void setVpsId(UUID vpsId) {
+        this.vpsId = vpsId;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setOpenedAt(Date openedAt) {
+        this.openedAt = openedAt;
+    }
+
+    public void setClosedAt(Date closedAt) {
+        this.closedAt = closedAt;
+    }
+
+    public void setComments(Iterable<CommentDTO> comments) {
+        this.comments = comments;
     }
 }

@@ -1,6 +1,7 @@
 start:
 	docker-compose up -d --build
 start-attached:
+	mvn package
 	docker-compose up --build
 start-nobuild:
 	docker-compose up

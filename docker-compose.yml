@@ -1,18 +1,9 @@
 version: '3'
 
 services:
-        build:
-                build:
-                        context: docker
-                        dockerfile: Build.docker
-                volumes:
-                        - ./:/usr/src/
-                        - maven_cache:/usr/maven-cache
-
         spring-app:
                 depends_on:
                         - eureka-server
-                        - build
                 container_name: spring-app
                 build:
                         context: ./app
@@ -28,7 +19,6 @@ services:
         spring-app-2:
                 depends_on:
                         - eureka-server
-                        - build
                 container_name: spring-app-2
                 build:
                         context: ./app
@@ -44,7 +34,6 @@ services:
         eureka-server:
                 depends_on:
                         - db
-                        - build
                 container_name: eureka-server
                 build:
                         context: ./eureka-server
@@ -64,7 +53,6 @@ services:
                         - rabbit-mq
                         - eureka-server
                         - rabbit-mq-consumer
-                        - build
                 container_name: eureka-client
                 build:
                         context: ./eureka-client
@@ -82,7 +70,6 @@ services:
         config-server:
                 depends_on:
                   - rabbit-mq
-                  - build
                 build:
                   context: ./config-server
                   dockerfile: docker/spring.docker
@@ -108,7 +95,6 @@ services:
         rabbit-mq-consumer:
                 depends_on:
                   - rabbit-mq
-                  - build
                 build:
                         context: ./queue-consumer
                         dockerfile: docker/spring.docker

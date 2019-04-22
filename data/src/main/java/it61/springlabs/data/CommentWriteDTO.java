@@ -1,4 +1,4 @@
-package DTO;
+package it61.springlabs.data;
 
 import java.util.UUID;
 
@@ -17,5 +17,13 @@ public class CommentWriteDTO {
 
     public UUID getFromId() {
         return fromId;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setFromId(UUID fromId) {
+        this.fromId = fromId;
     }
 }

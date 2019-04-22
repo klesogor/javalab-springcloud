@@ -1,9 +1,9 @@
 package it61.springlabs.hostingQueueConsumer.App.MessageHandlers;
 
-import DTO.InboundMessageDto;
-import DTO.ResultDto;
-import DTO.TicketReadDto;
-import DTO.TicketWriteDto;
+import it61.springlabs.data.InboundMessageDto;
+import it61.springlabs.data.ResultDto;
+import it61.springlabs.data.TicketReadDto;
+import it61.springlabs.data.TicketWriteDto;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases.CloseTicket;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases.CreateTicket;
@@ -38,9 +38,9 @@ public class TicketHandlers {
     private Logger log = LoggerFactory.getLogger("application");
 
     @RabbitListener(queues = "CreateTicket")
-    public ResultDto<TicketReadDto> handleCreate(InboundMessageDto<TicketWriteDto> dto){
+    public ResultDto<String> handleCreate(InboundMessageDto<TicketWriteDto> dto){
         Ticket ticket = this.createTicket.createTicket(dto.getData());
-        return new ResultDto<>(200,null,ticket.ToDto());
+        return new ResultDto<>(200,null,ticket.getId().toString());
     }
 
     @RabbitListener(queues = "CloseTicket")

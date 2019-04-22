@@ -1,6 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases;
 
-import DTO.TicketReadDto;
+import it61.springlabs.data.TicketReadDto;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Repository.Contracts.CommentRepository;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Repository.Contracts.TicketRepository;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;

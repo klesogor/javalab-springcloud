@@ -1,5 +1,5 @@
 FROM alpine:edge
 MAINTAINER klesogor
 RUN apk update && apk add --no-cache openjdk8 maven git
-ADD entrypoint.sh /usr/src
-CMD /usr/src/entrypoint.sh
+ADD entrypoint.sh /usr/entrypoint.sh
+CMD /usr/entrypoint.sh

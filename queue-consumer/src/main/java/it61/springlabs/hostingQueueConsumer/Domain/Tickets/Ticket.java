@@ -1,7 +1,9 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Tickets;
 
-import DTO.TicketReadDto;
+import it61.springlabs.data.TicketReadDto;
+import org.hibernate.annotations.Type;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,6 +15,8 @@ import java.util.UUID;
 @Table(name = "tickets")
 public final class Ticket {
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "uuid-char")
     private UUID id;
     private UUID userId;
     private UUID vpsId;

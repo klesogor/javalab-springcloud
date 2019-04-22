@@ -1,6 +1,7 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Comments;
 
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -9,6 +10,8 @@ import java.util.UUID;
 @Table(name = "comments")
 public class Comment {
     @Id
+    @Column(name = "id", updatable = false, nullable = false)
+    @Type(type = "uuid-char")
     private UUID id;
     private String text;
     private UUID fromId;

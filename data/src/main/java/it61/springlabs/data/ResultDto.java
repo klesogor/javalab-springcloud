@@ -1,4 +1,4 @@
-package DTO;
+package it61.springlabs.data;
 
 public class ResultDto<T> {
     private int code;
@@ -24,5 +24,17 @@ public class ResultDto<T> {
 
     public T getData() {
         return data;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public void setData(T data) {
+        this.data = data;
     }
 }
