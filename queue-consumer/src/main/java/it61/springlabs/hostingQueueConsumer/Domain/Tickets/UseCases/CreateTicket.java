@@ -6,6 +6,8 @@ import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 @Component
 public class CreateTicket {
     private TicketRepository repository;
@@ -19,7 +21,7 @@ public class CreateTicket {
                 dto.getUserId(),
                 dto.getVpsId(),
                 dto.getDescription(),
-                dto.getOpenedAt()
+                new Date()
         );
         repository.save(ticket);
 

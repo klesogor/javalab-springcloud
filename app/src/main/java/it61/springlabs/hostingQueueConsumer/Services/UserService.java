@@ -1,5 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.Services;
 
+import it61.springlabs.data.LogDTO;
 import it61.springlabs.hostingQueueConsumer.DTO.UserDTO;
 import it61.springlabs.hostingQueueConsumer.Exceptions.DomainException;
 import it61.springlabs.hostingQueueConsumer.Exceptions.NotFoundException;
@@ -8,6 +9,7 @@ import it61.springlabs.hostingQueueConsumer.Models.Vps;
 import it61.springlabs.hostingQueueConsumer.Repository.UserRepository;
 import it61.springlabs.hostingQueueConsumer.Repository.VPSRepository;
 import it61.springlabs.hostingQueueConsumer.Services.Contracts.UserCrudServiceInterface;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,11 +21,13 @@ public final class UserService implements UserCrudServiceInterface {
 
     private UserRepository userRepository;
     private VPSRepository vpsRepository;
+    private AmqpTemplate template;
 
     @Autowired
-    public UserService(UserRepository userRepo, VPSRepository vpsRepo) {
+    public UserService(UserRepository userRepo, VPSRepository vpsRepo, AmqpTemplate template) {
         userRepository = userRepo;
         vpsRepository = vpsRepo;
+        this.template = template;
     }
 
     @Override
@@ -39,6 +43,7 @@ public final class UserService implements UserCrudServiceInterface {
             vpsRepository.save(vps);
         }
         userRepository.save(user.setIs_deleted(true));
+        template.convertAndSend("logs", new LogDTO("User","Deleted with id: "+id.toString()));
     }
 
     @Override
@@ -56,6 +61,7 @@ public final class UserService implements UserCrudServiceInterface {
                     dto.getSecret()
                 );
         userRepository.save(user);
+        template.convertAndSend("logs", new LogDTO("User","Deleted with id: "+user.getId().toString()));
 
         return user;
     }
@@ -68,6 +74,7 @@ public final class UserService implements UserCrudServiceInterface {
         user.setSecret(dto.getSecret());
         user.setPhone(dto.getPhone());
         userRepository.save(user);
+        template.convertAndSend("logs", new LogDTO("User","Updated with id: "+id.toString()));
 
         return user;
     }

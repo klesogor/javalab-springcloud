@@ -53,10 +53,10 @@ public class AmqpConfig {
     }
 
     @Bean
+    public Queue LogQueue(){return new Queue("logs");}
+
+    @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
-
-    @Bean
-    public Queue LogQueue(){return new Queue("logs");}
 }

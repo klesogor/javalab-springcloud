@@ -8,6 +8,7 @@ import it61.springlabs.hostingQueueConsumer.Models.Vps;
 import it61.springlabs.hostingQueueConsumer.Repository.UserRepository;
 import it61.springlabs.hostingQueueConsumer.Repository.VPSRepository;
 import it61.springlabs.hostingQueueConsumer.Services.Contracts.VPSCrudService;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
