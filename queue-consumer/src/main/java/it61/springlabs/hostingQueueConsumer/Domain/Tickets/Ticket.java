@@ -1,6 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Tickets;
 
-import it61.springlabs.data.TicketReadDto;
+import it61.springlabs.data.DTO.TicketReadDto;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;

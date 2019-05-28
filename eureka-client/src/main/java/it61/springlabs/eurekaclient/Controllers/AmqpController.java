@@ -1,12 +1,9 @@
 package it61.springlabs.eurekaclient.Controllers;
 
-import it61.springlabs.data.InboundMessageDto;
-import it61.springlabs.data.ResultDto;
-import it61.springlabs.data.TicketReadDto;
-import it61.springlabs.data.TicketWriteDto;
+import it61.springlabs.data.DTO.InboundMessageDto;
+import it61.springlabs.data.DTO.ResultDto;
+import it61.springlabs.data.DTO.TicketWriteDto;
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.Message;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

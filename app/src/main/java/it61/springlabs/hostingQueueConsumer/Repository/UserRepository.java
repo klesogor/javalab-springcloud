@@ -1,6 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.Repository;
 
-import it61.springlabs.hostingQueueConsumer.Models.User;
+import Entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

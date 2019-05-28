@@ -1,11 +1,11 @@
 package it61.springlabs.hostingQueueConsumer.Services;
 
-import it61.springlabs.data.LogDTO;
+import it61.springlabs.data.DTO.LogDTO;
 import it61.springlabs.hostingQueueConsumer.DTO.UserDTO;
 import it61.springlabs.hostingQueueConsumer.Exceptions.DomainException;
 import it61.springlabs.hostingQueueConsumer.Exceptions.NotFoundException;
-import it61.springlabs.hostingQueueConsumer.Models.User;
-import it61.springlabs.hostingQueueConsumer.Models.Vps;
+import Entities.User;
+import Entities.Vps;
 import it61.springlabs.hostingQueueConsumer.Repository.UserRepository;
 import it61.springlabs.hostingQueueConsumer.Repository.VPSRepository;
 import it61.springlabs.hostingQueueConsumer.Services.Contracts.UserCrudServiceInterface;
@@ -38,10 +38,6 @@ public final class UserService implements UserCrudServiceInterface {
     @Override
     public void Delete(UUID id) throws DomainException {
         User user = userRepository.findById(id).orElseThrow(() -> NotFoundException.of(id, "User"));
-        for (Vps vps: user.getServers()) {
-            vps.setIsDeleted(true);
-            vpsRepository.save(vps);
-        }
         userRepository.save(user.setIs_deleted(true));
         template.convertAndSend("logs", new LogDTO("User","Deleted with id: "+id.toString()));
     }

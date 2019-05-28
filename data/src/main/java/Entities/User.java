@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.Models;
+package Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -25,6 +25,8 @@ public final class User {
     @Column
     private String phone;
     @Column
+    private String password;
+    @Column
     private String secret;
     @Column
     @UpdateTimestamp
@@ -34,9 +36,6 @@ public final class User {
     private LocalDateTime createdAt;
     @Column
     private boolean is_deleted = false;
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
-    private Set<Vps> servers;
 
     protected User(){}
 
@@ -79,10 +78,6 @@ public final class User {
         return this;
     }
 
-    public Set<Vps> getServers() {
-        return servers;
-    }
-
     public String getSecret() {
         return secret;
     }
@@ -108,5 +103,13 @@ public final class User {
     public User setIs_deleted(boolean is_deleted) {
         this.is_deleted = is_deleted;
         return this;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

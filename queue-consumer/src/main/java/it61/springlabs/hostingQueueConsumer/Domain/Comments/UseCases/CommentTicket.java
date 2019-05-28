@@ -1,6 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.Domain.Comments.UseCases;
 
-import it61.springlabs.data.CommentWriteDTO;
+import it61.springlabs.data.DTO.CommentWriteDTO;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Comment;
 import it61.springlabs.hostingQueueConsumer.Domain.Comments.Repository.Contracts.CommentRepository;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;

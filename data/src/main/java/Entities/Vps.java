@@ -1,4 +1,4 @@
-package it61.springlabs.hostingQueueConsumer.Models;
+package Entities;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;

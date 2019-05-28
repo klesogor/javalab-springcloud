@@ -4,7 +4,7 @@ import it61.springlabs.hostingQueueConsumer.DTO.VPSResponse;
 import it61.springlabs.hostingQueueConsumer.DTO.VpsDTO;
 import it61.springlabs.hostingQueueConsumer.Exceptions.DomainException;
 import it61.springlabs.hostingQueueConsumer.Exceptions.ValidationException;
-import it61.springlabs.hostingQueueConsumer.Models.Vps;
+import Entities.Vps;
 import it61.springlabs.hostingQueueConsumer.Services.VpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;

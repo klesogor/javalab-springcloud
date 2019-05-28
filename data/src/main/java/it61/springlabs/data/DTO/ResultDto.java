@@ -1,4 +1,4 @@
-package it61.springlabs.data;
+package it61.springlabs.data.DTO;
 
 public class ResultDto<T> {
     private int code;

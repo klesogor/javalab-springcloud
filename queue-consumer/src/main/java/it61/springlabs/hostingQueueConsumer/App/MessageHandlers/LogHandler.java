@@ -1,6 +1,6 @@
 package it61.springlabs.hostingQueueConsumer.App.MessageHandlers;
 
-import it61.springlabs.data.LogDTO;
+import it61.springlabs.data.DTO.LogDTO;
 import it61.springlabs.hostingQueueConsumer.Domain.Log.Log;
 import it61.springlabs.hostingQueueConsumer.Domain.Log.Repositories.LogRepository;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;

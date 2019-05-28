@@ -1,9 +1,9 @@
 package it61.springlabs.hostingQueueConsumer.App.MessageHandlers;
 
-import it61.springlabs.data.InboundMessageDto;
-import it61.springlabs.data.ResultDto;
-import it61.springlabs.data.TicketReadDto;
-import it61.springlabs.data.TicketWriteDto;
+import it61.springlabs.data.DTO.InboundMessageDto;
+import it61.springlabs.data.DTO.ResultDto;
+import it61.springlabs.data.DTO.TicketReadDto;
+import it61.springlabs.data.DTO.TicketWriteDto;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.Ticket;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases.CloseTicket;
 import it61.springlabs.hostingQueueConsumer.Domain.Tickets.UseCases.CreateTicket;

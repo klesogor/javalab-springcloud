@@ -1,4 +1,4 @@
-package it61.springlabs.data;
+package it61.springlabs.data.DTO;
 
 import java.util.UUID;
 
