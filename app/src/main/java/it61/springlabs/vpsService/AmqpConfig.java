@@ -1,4 +1,4 @@
-package it61.springlabs.queueConsumer;
+package it61.springlabs.vpsService;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;

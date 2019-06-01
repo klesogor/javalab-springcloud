@@ -1,4 +1,4 @@
-package it61.springlabs.queueConsumer.Controllers;
+package it61.springlabs.vpsService.Controllers;
 
 import it61.springlabs.data.exceptions.DomainException;
 import it61.springlabs.data.generic.Response;

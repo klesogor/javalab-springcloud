@@ -10,7 +10,7 @@
 	</parent>
 	<artifactId>ticket-service</artifactId>
 	<version>lab</version>
-	<name>hosting-queue-consumer</name>
+	<name>ticket-service</name>
 	<description>Demo project for Spring Boot with docker</description>
 	<packaging>jar</packaging>
 

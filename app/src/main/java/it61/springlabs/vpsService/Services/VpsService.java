@@ -1,13 +1,13 @@
-package it61.springlabs.queueConsumer.Services;
+package it61.springlabs.vpsService.Services;
 
 import it61.springlabs.data.dto.vps.VpsDTO;
 import it61.springlabs.data.exceptions.DomainException;
 import it61.springlabs.data.exceptions.NotFoundException;
 import it61.springlabs.data.entities.User;
 import it61.springlabs.data.entities.Vps;
-import it61.springlabs.queueConsumer.Repository.UserRepository;
-import it61.springlabs.queueConsumer.Repository.VPSRepository;
-import it61.springlabs.queueConsumer.Services.Contracts.VPSCrudService;
+import it61.springlabs.vpsService.Repository.UserRepository;
+import it61.springlabs.vpsService.Repository.VPSRepository;
+import it61.springlabs.vpsService.Services.Contracts.VPSCrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

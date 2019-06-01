@@ -1,10 +1,10 @@
-package it61.springlabs.queueConsumer.Controllers;
+package it61.springlabs.vpsService.Controllers;
 
 import it61.springlabs.data.generic.Response;
 import it61.springlabs.data.dto.vps.VpsDTO;
 import it61.springlabs.data.exceptions.DomainException;
 import it61.springlabs.data.entities.Vps;
-import it61.springlabs.queueConsumer.Services.VpsService;
+import it61.springlabs.vpsService.Services.VpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;

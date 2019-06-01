@@ -1,4 +1,4 @@
-package it61.springlabs.queueConsumer.Domain.Exceptions;
+package it61.springlabs.vpsService.Domain.Exceptions;
 
 import java.util.UUID;
 
