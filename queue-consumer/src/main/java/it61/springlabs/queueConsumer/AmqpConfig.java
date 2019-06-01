@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice;
+package it61.springlabs.queueConsumer;
 
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.core.Queue;
@@ -53,10 +53,10 @@ public class AmqpConfig {
     }
 
     @Bean
-    public Queue LogQueue(){return new Queue("logs");}
-
-    @Bean
     public Jackson2JsonMessageConverter producerJackson2MessageConverter() {
         return new Jackson2JsonMessageConverter();
     }
+
+    @Bean
+    public Queue LogQueue(){return new Queue("logs");}
 }

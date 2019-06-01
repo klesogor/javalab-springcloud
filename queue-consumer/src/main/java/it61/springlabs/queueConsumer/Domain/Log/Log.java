@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice.Domain.Log;
+package it61.springlabs.queueConsumer.Domain.Log;
 
 import org.hibernate.annotations.Type;
 

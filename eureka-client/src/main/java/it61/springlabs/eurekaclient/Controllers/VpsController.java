@@ -1,20 +1,19 @@
 package it61.springlabs.eurekaclient.Controllers;
 
-import it61.springlabs.eurekaclient.DTO.VPSResponse;
-import it61.springlabs.eurekaclient.DTO.VpsDTO;
-import it61.springlabs.eurekaclient.Services.HostingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import it61.springlabs.data.dto.vps.VpsDTO;
+import it61.springlabs.data.entities.Vps;
+import it61.springlabs.data.generic.Response;
+import it61.springlabs.eurekaclient.Services.VpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-public final class VpsController implements CRUDControllerInterface<VPSResponse, VpsDTO> {
+public final class VpsController implements CRUDControllerInterface<Vps, VpsDTO> {
 
-    private HostingService client;
+    private VpsService client;
     @Autowired
-    public VpsController(HostingService client)
+    public VpsController(VpsService client)
     {
         this.client = client;
     }
@@ -22,28 +21,28 @@ public final class VpsController implements CRUDControllerInterface<VPSResponse,
     @Override
     @GetMapping("/api/v1/vps")
     @ResponseBody
-    public Iterable<VPSResponse> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage){
+    public Response<Iterable<Vps>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage){
         return client.getAllVps(page,perPage);
     }
 
     @Override
     @GetMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public VPSResponse findById(@PathVariable(name = "id") UUID id){
+    public Response<Vps> findById(@PathVariable(name = "id") UUID id){
         return client.findVpsById(id);
     }
 
     @Override
     @PostMapping("/api/v1/vps")
     @ResponseBody
-    public VPSResponse create(@ModelAttribute VpsDTO dto){
+    public Response<Vps> create(@RequestBody VpsDTO dto){
         return client.createVps(dto);
     }
 
     @Override
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public VPSResponse update(@PathVariable(name = "id") UUID id,@ModelAttribute VpsDTO dto){
+    public Response<Vps> update(@PathVariable(name = "id") UUID id, @RequestBody VpsDTO dto){
         return client.updateVps(id,dto);
     }
 

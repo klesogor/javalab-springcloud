@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice.Services.Contracts;
+package it61.springlabs.queueConsumer.Services.Contracts;
 
 import it61.springlabs.data.exceptions.DomainException;
 

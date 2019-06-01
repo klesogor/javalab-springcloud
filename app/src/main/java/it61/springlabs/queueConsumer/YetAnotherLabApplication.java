@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice;
+package it61.springlabs.queueConsumer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

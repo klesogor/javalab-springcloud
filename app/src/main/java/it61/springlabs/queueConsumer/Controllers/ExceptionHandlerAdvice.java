@@ -1,7 +1,7 @@
-package it61.springlabs.vpsservice.Controllers;
+package it61.springlabs.queueConsumer.Controllers;
 
-import it61.springlabs.data.dto.utility.ExceptionDTO;
 import it61.springlabs.data.exceptions.DomainException;
+import it61.springlabs.data.generic.Response;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ public class ExceptionHandlerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = DomainException.class)
     protected ResponseEntity<Object> handle(DomainException ex, WebRequest req)
     {
-        ExceptionDTO dto = new ExceptionDTO(ex.getDescription(),ex.getCode());
-        return handleExceptionInternal(ex, dto, new HttpHeaders(), HttpStatus.resolve(ex.getCode()),req);
+        Response resp = Response.Error(ex.getDescription());
+        return handleExceptionInternal(ex, resp, new HttpHeaders(), HttpStatus.resolve(ex.getCode()),req);
     }
 }

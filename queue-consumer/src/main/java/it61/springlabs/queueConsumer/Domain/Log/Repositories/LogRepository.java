@@ -1,6 +1,6 @@
-package it61.springlabs.vpsservice.Domain.Log.Repositories;
+package it61.springlabs.queueConsumer.Domain.Log.Repositories;
 
-import it61.springlabs.vpsservice.Domain.Log.Log;
+import it61.springlabs.queueConsumer.Domain.Log.Log;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

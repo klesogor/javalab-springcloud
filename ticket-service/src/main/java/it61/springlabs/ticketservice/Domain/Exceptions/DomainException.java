@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice.Domain.Exceptions;
+package it61.springlabs.queueConsumer.Domain.Exceptions;
 
 public abstract class DomainException extends Exception {
 

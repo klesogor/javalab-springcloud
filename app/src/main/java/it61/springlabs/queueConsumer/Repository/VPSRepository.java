@@ -1,4 +1,4 @@
-package it61.springlabs.vpsservice.Repository;
+package it61.springlabs.queueConsumer.Repository;
 
 import it61.springlabs.data.entities.Vps;
 import org.springframework.data.jpa.repository.JpaRepository;
