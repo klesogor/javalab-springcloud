@@ -1,6 +1,6 @@
 package it61.springlabs.data.exceptions;
 
-public abstract class DomainException extends Exception {
+public abstract class DomainException extends RuntimeException {
 
     protected Integer code;
     protected String description;

@@ -13,6 +13,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private AuthConfigProvider config;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -21,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager()))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), authConfig()))
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
@@ -40,7 +41,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    public AuthConfigProvider authConfig(){
+        if(config == null) config = new AuthConfigProvider();
+
+        return config;
+    }
+
+    @Bean
     protected JwtGenerator jwtGenerator(){
-        return new JwtGenerator();
+        return new JwtGenerator(authConfig());
     }
 }

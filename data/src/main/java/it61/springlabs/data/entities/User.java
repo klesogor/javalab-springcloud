@@ -1,5 +1,6 @@
 package it61.springlabs.data.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -25,6 +26,7 @@ public final class User {
     private String username;
 
     @Column
+    @JsonIgnore
     @NotNull
     private String password;
 
