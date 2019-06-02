@@ -21,19 +21,15 @@ public final class User {
     private UUID id;
 
     @Column
-    @NotNull
     private String username;
 
     @Column
-    @JsonIgnore
-    @NotNull
     private String password;
 
     @Column
     private String secret;
 
     @Column
-    @NotNull
     private String roles;
 
     @Column
