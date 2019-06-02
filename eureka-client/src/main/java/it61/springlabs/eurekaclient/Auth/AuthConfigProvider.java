@@ -1,26 +1,32 @@
 package it61.springlabs.eurekaclient.Auth;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Service;
 
 @RefreshScope
+@Service
 public class AuthConfigProvider {
-    @Value("auth.jwt_secret")
+
+    private static Logger logger = LoggerFactory.getLogger("auth_logger");
+
+    @Value("${auth.jwt_secret}")
     private String JWT_SECRET;
-    @Value("auth.token_type")
+    @Value("${auth.token_type}")
     private String TOKEN_TYPE;
-    @Value("auth.token_issuer")
+    @Value("${auth.token_issuer}")
     private String TOKEN_ISSUER;
-    @Value("auth.token_audience")
+    @Value("${auth.token_audience}")
     private String TOKEN_AUDIENCE;
-    @Value("auth.login_url")
-    private String AUTH_LOGIN_URL;
-    @Value("auth.token_audience")
+    @Value("${auth.token_audience}")
     private String TOKEN_HEADER;
-    @Value("auth.token_audience")
+    @Value("${auth.token_audience}")
     private String TOKEN_PREFIX;
 
     public String getJWT_SECRET() {
+        logger.info(JWT_SECRET);
         return JWT_SECRET;
     }
 
@@ -34,10 +40,6 @@ public class AuthConfigProvider {
 
     public String getTOKEN_AUDIENCE() {
         return TOKEN_AUDIENCE;
-    }
-
-    public String getAUTH_LOGIN_URL() {
-        return AUTH_LOGIN_URL;
     }
 
     public String getTOKEN_HEADER() {

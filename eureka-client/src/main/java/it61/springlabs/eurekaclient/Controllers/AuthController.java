@@ -7,6 +7,7 @@ import it61.springlabs.eurekaclient.Auth.JwtGenerator;
 import it61.springlabs.eurekaclient.Services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,13 +21,13 @@ public class AuthController {
         this.jwtGenerator = jwtGenerator;
     }
 
-    @PostMapping(value = "/api/v1/login")
-    public Response<String> login(UserLoginDto dto){
+    @PostMapping(value = "/api/v1/auth/login")
+    public Response<String> login(@RequestBody UserLoginDto dto){
         return Response.Of(jwtGenerator.generate(auth.TryAuthUser(dto.getUsername(), dto.getPassword())));
     }
 
-    @PostMapping(value = "/api/v1/register")
-    public Response<String> register(UserRegistrationDTO dto){
+    @PostMapping(value = "/api/v1/auth/register")
+    public Response<String> register(@RequestBody UserRegistrationDTO dto){
         return Response.Of(jwtGenerator.generate(auth.RegisterUser(dto)));
     }
 }

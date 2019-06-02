@@ -16,21 +16,6 @@ services:
                 environment:
                         DB_HOST: spring-db:3306
                         APP_NAME: test-app-1
-        spring-app-2:
-                depends_on:
-                        - eureka-server
-                container_name: spring-app-2
-                build:
-                        context: ./app
-                        dockerfile: docker/spring.docker
-                volumes:
-                        - ./app:/usr/src/app
-                        - maven_cache:/usr/src/.maven-cache
-                networks:
-                        - default
-                environment:
-                        DB_HOST: spring-db:3306
-                        APP_NAME: not-test-app-2
         eureka-server:
                 depends_on:
                         - db
@@ -40,7 +25,6 @@ services:
                         dockerfile: docker/spring.docker
                 volumes:
                         - ./eureka-server:/usr/src/eureka-server
-                        - maven_cache:/usr/src/.maven-cache
                 networks:
                         - default
                 ports:
@@ -59,10 +43,8 @@ services:
                         dockerfile: docker/spring.docker
                 volumes:
                         - ./eureka-client:/usr/src/eureka-client
-                        - maven_cache:/usr/src/.maven-cache
-                        - /usr/java/maven:/usr/java/maven
                 ports:
-                        - "8888:80"
+                        - "8080:80"
                 networks:
                         - default
                 environment:
@@ -79,8 +61,8 @@ services:
                         - maven_cache:/usr/src/.maven-cache
                 networks:
                         - default
-                environment:
-                        DB_HOST: spring-db:3306
+                ports:
+                  - "9999:8888"
         rabbit-mq:
                 image: rabbitmq:3.8.0-beta.3-management
                 hostname: rabbit-mq
@@ -101,12 +83,8 @@ services:
                 container_name: rabbit-mq-consumer
                 volumes:
                         - ./queue-consumer:/usr/src/queue-consumer
-                        - maven_cache:/usr/src/.maven-cache
-                        - /usr/java/maven:/usr/java/maven
                 networks:
                         - default
-                environment:
-                        DB_HOST: spring-db:3306
         db:
                 container_name: spring-db
                 build:

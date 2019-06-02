@@ -11,7 +11,7 @@
     </parent>
     <modules>
         <module>data</module>
-
+        <module>config-server</module>
         <module>eureka-client</module>
         <module>app</module>
         <module>eureka-server</module>

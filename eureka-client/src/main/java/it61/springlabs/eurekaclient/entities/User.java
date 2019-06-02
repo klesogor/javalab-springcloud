@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-@Where(clause = "is_deleted = 0")
+@Where(clause = "deleted = 0")
 public final class User {
     @Id
     @Column(name = "id", updatable = false, nullable = false)

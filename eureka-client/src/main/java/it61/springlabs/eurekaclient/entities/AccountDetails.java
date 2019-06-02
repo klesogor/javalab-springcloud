@@ -1,12 +1,19 @@
 package it61.springlabs.eurekaclient.entities;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "acount_details")
 public final class AccountDetails {
+    @Id
+    @Type(type = "uuid-char")
+    private UUID id;
     @Column
     private String phone;
     @Column
@@ -23,10 +30,12 @@ public final class AccountDetails {
     public AccountDetails() {
     }
 
-    public AccountDetails(String phone, String city, String company, String email, int age) {
+    public AccountDetails(UUID id,String phone, String city, String company, String email, int age) {
+        this.id = id;
         this.phone = phone;
         this.city = city;
         this.company = company;
+        this.email = email;
         this.age = age;
     }
 
@@ -73,4 +82,8 @@ public final class AccountDetails {
     public String getEmail() { return email; }
 
     public void setEmail(String email) { this.email = email;}
+
+    public UUID getId() { return id; }
+
+    public void setId(UUID id) { this.id = id; }
 }

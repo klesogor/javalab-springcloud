@@ -21,7 +21,7 @@ public final class Vps {
     private UUID id;
 
     @Column
-    @Type(type = "char-uuid")
+    @Type(type = "uuid-char")
     private UUID userId;
 
     @Column

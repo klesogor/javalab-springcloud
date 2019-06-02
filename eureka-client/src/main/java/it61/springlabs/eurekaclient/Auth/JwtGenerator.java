@@ -18,7 +18,7 @@ public class JwtGenerator {
         byte[] signingKey = config.getJWT_SECRET().getBytes();
 
         return Jwts.builder()
-                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS512)
+                .signWith(Keys.hmacShaKeyFor(signingKey), SignatureAlgorithm.HS256)
                 .setHeaderParam("typ", config.getTOKEN_TYPE())
                 .setIssuer(config.getTOKEN_ISSUER())
                 .setAudience(config.getTOKEN_AUDIENCE())
