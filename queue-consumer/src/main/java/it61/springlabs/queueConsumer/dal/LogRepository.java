@@ -1,6 +1,6 @@
-package it61.springlabs.queueConsumer.Domain.Log.Repositories;
+package it61.springlabs.queueConsumer.dal;
 
-import it61.springlabs.queueConsumer.Domain.Log.Log;
+import it61.springlabs.queueConsumer.entities.Log;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

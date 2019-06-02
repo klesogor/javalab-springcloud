@@ -1,4 +1,4 @@
-package it61.springlabs.queueConsumer.Domain.Log;
+package it61.springlabs.queueConsumer.entities;
 
 import org.hibernate.annotations.Type;
 

@@ -1,8 +1,8 @@
 package it61.springlabs.queueConsumer.App.MessageHandlers;
 
 import it61.springlabs.data.dto.utility.LogDTO;
-import it61.springlabs.queueConsumer.Domain.Log.Repositories.LogRepository;
-import it61.springlabs.queueConsumer.Domain.Log.Log;
+import it61.springlabs.data.repositories.LogRepository;
+import it61.springlabs.queueConsumer.entities.Log;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;

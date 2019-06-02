@@ -1,5 +1,6 @@
-package it61.springlabs.data.entities;
+package it61.springlabs.ticketservice.Domain.Comments;
 
+import it61.springlabs.ticketservice.Domain.Tickets.Ticket;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

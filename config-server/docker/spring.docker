@@ -3,4 +3,4 @@ MAINTAINER klesogor
 WORKDIR /usr/src/eureka-server
 RUN apk update && apk add --no-cache openjdk8 maven nss git
 EXPOSE 8761
-CMD ["/usr/src/config-server/docker/entrypoint.sh"]
+CMD /usr/bin/java -jar /usr/src/config-server/target/config-server-lab.jar

@@ -1,10 +1,10 @@
 package it61.springlabs.eurekaclient.Services.impl;
 
 import it61.springlabs.data.dto.user.UserRegistrationDTO;
-import it61.springlabs.data.entities.User;
+import it61.springlabs.eurekaclient.entities.User;
 import it61.springlabs.data.exceptions.AuthException;
-import it61.springlabs.eurekaclient.DAL.UserRepository;
 import it61.springlabs.eurekaclient.Services.AuthService;
+import it61.springlabs.eurekaclient.dal.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,9 @@
 package it61.springlabs.ticketservice.Domain.Comments.UseCases;
 
 import it61.springlabs.data.dto.ticket.CommentWriteDTO;
-import it61.springlabs.data.entities.Comment;
-import it61.springlabs.data.entities.Ticket;
-import it61.springlabs.ticketservice.Domain.Comments.Repository.Contracts.CommentRepository;
+import it61.springlabs.ticketservice.Domain.Comments.Comment;
+import it61.springlabs.ticketservice.Domain.Tickets.Ticket;
+import it61.springlabs.ticketservice.Domain.Comments.dal.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class CommentTicket {

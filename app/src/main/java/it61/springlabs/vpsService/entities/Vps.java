@@ -1,5 +1,6 @@
-package it61.springlabs.data.entities;
+package it61.springlabs.vpsService.entities;
 
+import it61.springlabs.data.dto.vps.VpsReadDto;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,10 +20,9 @@ public final class Vps {
     @Type(type = "uuid-char")
     private UUID id;
 
-    @JoinColumn
-    @Nullable
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User owner;
+    @Column
+    @Type(type = "char-uuid")
+    private UUID userId;
 
     @Column
     private String operatingSystem;
@@ -49,9 +49,9 @@ public final class Vps {
 
     protected Vps(){}
 
-    public Vps(User owner, String operatingSystem,Integer cpuCount, Double cpuRate, Double RAM ) {
+    public Vps(UUID owner, String operatingSystem,Integer cpuCount, Double cpuRate, Double RAM ) {
         this.id = UUID.randomUUID();
-        this.owner = owner;
+        this.userId = owner;
         this.operatingSystem = operatingSystem;
         this.CPURate = cpuRate;
         this.CPUCount = cpuCount;
@@ -67,10 +67,6 @@ public final class Vps {
         return id;
     }
 
-    public User getOwner() {
-        return owner;
-    }
-
     public String getOperatingSystem() {
         return operatingSystem;
     }
@@ -81,11 +77,6 @@ public final class Vps {
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public Vps setOwner(User owner) {
-        this.owner = owner;
-        return this;
     }
 
     public Vps setOperatingSystem(String operatingSystem) {
@@ -127,5 +118,17 @@ public final class Vps {
     public Vps setIsDeleted(boolean is_deleted) {
         this.is_deleted = true;
         return this;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public VpsReadDto toDto(){
+        return new VpsReadDto(id,userId,operatingSystem,CPUCount,CPURate,RAM);
     }
 }

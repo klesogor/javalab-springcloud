@@ -1,7 +1,7 @@
 package it61.springlabs.ticketservice.App;
 
 import it61.springlabs.data.dto.ticket.TicketWriteDto;
-import it61.springlabs.data.entities.Ticket;
+import it61.springlabs.ticketservice.Domain.Tickets.Ticket;
 import it61.springlabs.ticketservice.Domain.Tickets.UseCases.CloseTicket;
 import it61.springlabs.ticketservice.Domain.Tickets.UseCases.CreateTicket;
 import it61.springlabs.ticketservice.Domain.Tickets.UseCases.GetTicketsForVps;

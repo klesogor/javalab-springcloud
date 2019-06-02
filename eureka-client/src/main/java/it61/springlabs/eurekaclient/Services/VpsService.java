@@ -1,8 +1,8 @@
 package it61.springlabs.eurekaclient.Services;
 
 import feign.Headers;
-import it61.springlabs.data.dto.vps.VpsDTO;
-import it61.springlabs.data.entities.Vps;
+import it61.springlabs.data.dto.vps.VpsReadDto;
+import it61.springlabs.data.dto.vps.VpsWriteDTO;
 import it61.springlabs.data.generic.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -14,19 +14,19 @@ import java.util.UUID;
 public interface VpsService {
     @GetMapping(value="/api/v1/vps?page={page}&perPage={perPage}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")
-    Response<Iterable<Vps>> getAllVps(@PathVariable("page") Integer page, @PathVariable("perPage") Integer perPage);
+    Response<Iterable<VpsReadDto>> getAllVps(@PathVariable("page") Integer page, @PathVariable("perPage") Integer perPage);
 
     @GetMapping(value="/api/v1/vps/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")
-    Response<Vps> findVpsById(@PathVariable(name = "id") UUID id);
+    Response<VpsReadDto> findVpsById(@PathVariable(name = "id") UUID id);
 
     @PostMapping(value="/api/v1/vps",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")
-    Response<Vps> createVps(VpsDTO dto);
+    Response<VpsReadDto> createVps(VpsWriteDTO dto);
 
     @PutMapping(value="/api/v1/vps/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")
-    Response<Vps> updateVps(@PathVariable(name = "id") UUID id, VpsDTO dto);
+    Response<VpsReadDto> updateVps(@PathVariable(name = "id") UUID id, VpsWriteDTO dto);
 
     @DeleteMapping(value="/api/v1/vps/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")

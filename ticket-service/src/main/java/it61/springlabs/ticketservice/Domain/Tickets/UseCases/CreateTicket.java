@@ -1,8 +1,8 @@
 package it61.springlabs.ticketservice.Domain.Tickets.UseCases;
 
 import it61.springlabs.data.dto.ticket.TicketWriteDto;
-import it61.springlabs.data.entities.Ticket;
-import it61.springlabs.ticketservice.Domain.Tickets.Repository.Contracts.TicketRepository;
+import it61.springlabs.ticketservice.Domain.Tickets.Ticket;
+import it61.springlabs.ticketservice.Domain.Tickets.dal.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

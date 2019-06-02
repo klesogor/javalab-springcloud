@@ -3,7 +3,7 @@ package it61.springlabs.data.dto.vps;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
-public final class VpsDTO {
+public final class VpsWriteDTO {
     @NotNull
     private String operatingSystem;
     private UUID owner_id;
@@ -14,7 +14,7 @@ public final class VpsDTO {
     @NotNull
     private Double Ram;
 
-    public VpsDTO(String operatingSystem, UUID owner, Integer cpuCount, Double cpuRate, Double ram) {
+    public VpsWriteDTO(String operatingSystem, UUID owner, Integer cpuCount, Double cpuRate, Double ram) {
         this.operatingSystem = operatingSystem;
         this.owner_id = owner;
         this.CpuCount = cpuCount;

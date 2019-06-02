@@ -1,4 +1,4 @@
-package it61.springlabs.data.entities;
+package it61.springlabs.eurekaclient.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.CreationTimestamp;
@@ -9,7 +9,6 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Entity

@@ -1,6 +1,6 @@
-package it61.springlabs.eurekaclient.DAL;
+package it61.springlabs.eurekaclient.dal;
 
-import it61.springlabs.data.entities.User;
+import it61.springlabs.eurekaclient.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

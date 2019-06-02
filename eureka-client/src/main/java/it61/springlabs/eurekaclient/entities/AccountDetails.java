@@ -1,4 +1,4 @@
-package it61.springlabs.data.entities;
+package it61.springlabs.eurekaclient.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,11 +17,13 @@ public final class AccountDetails {
     private int age;
     @Column
     private boolean deleted;
+    @Column
+    private String email;
 
     public AccountDetails() {
     }
 
-    public AccountDetails(String phone, String city, String company, int age) {
+    public AccountDetails(String phone, String city, String company, String email, int age) {
         this.phone = phone;
         this.city = city;
         this.company = company;
@@ -67,4 +69,8 @@ public final class AccountDetails {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+    public String getEmail() { return email; }
+
+    public void setEmail(String email) { this.email = email;}
 }

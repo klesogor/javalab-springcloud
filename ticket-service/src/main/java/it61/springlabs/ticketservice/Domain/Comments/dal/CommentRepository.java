@@ -1,6 +1,6 @@
-package it61.springlabs.ticketservice.Domain.Comments.Repository.Contracts;
+package it61.springlabs.ticketservice.Domain.Comments.dal;
 
-import it61.springlabs.data.entities.Comment;
+import it61.springlabs.ticketservice.Domain.Comments.Comment;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;

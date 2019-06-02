@@ -1,9 +1,10 @@
 package it61.springlabs.vpsService.Controllers;
 
+import it61.springlabs.data.dto.vps.VpsReadDto;
 import it61.springlabs.data.generic.Response;
-import it61.springlabs.data.dto.vps.VpsDTO;
+import it61.springlabs.data.dto.vps.VpsWriteDTO;
 import it61.springlabs.data.exceptions.DomainException;
-import it61.springlabs.data.entities.Vps;
+import it61.springlabs.vpsService.entities.Vps;
 import it61.springlabs.vpsService.Services.VpsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
-public final class VpsController implements CRUDControllerInterface<Vps, VpsDTO> {
+public final class VpsController implements CRUDControllerInterface<VpsReadDto, VpsWriteDTO> {
 
     private VpsService service;
 
@@ -25,31 +28,32 @@ public final class VpsController implements CRUDControllerInterface<Vps, VpsDTO>
     @Override
     @GetMapping("/api/v1/vps")
     @ResponseBody
-    public Response<Iterable<Vps>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage) {
+    public Response<Iterable<VpsReadDto>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage) {
         Iterable<Vps> vpsIterable = service.Paginated(perPage,page - 1);
 
-        return Response.Of(vpsIterable);
+        return Response.Of(StreamSupport.stream(vpsIterable.spliterator(),false)
+                .map(v -> v.toDto()).collect(Collectors.toList()));
     }
 
     @Override
     @GetMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public Response<Vps> findById(@PathVariable(name = "id") UUID id) throws DomainException {
-        return Response.Of(service.FindById(id));
+    public Response<VpsReadDto> findById(@PathVariable(name = "id") UUID id) throws DomainException {
+        return Response.Of(service.FindById(id).toDto());
     }
 
     @Override
     @PostMapping("/api/v1/vps")
     @ResponseBody
-    public Response<Vps> create(@Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
-        return Response.Of(service.Create(dto));
+    public Response<VpsReadDto> create(@Valid @RequestBody VpsWriteDTO dto, BindingResult binding) throws DomainException {
+        return Response.Of(service.Create(dto).toDto());
     }
 
     @Override
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public Response<Vps> update(@PathVariable(name = "id") UUID id, @Valid @RequestBody VpsDTO dto, BindingResult binding) throws DomainException {
-        return Response.Of(service.Update(id,dto));
+    public Response<VpsReadDto> update(@PathVariable(name = "id") UUID id, @Valid @RequestBody VpsWriteDTO dto, BindingResult binding) throws DomainException {
+        return Response.Of(service.Update(id,dto).toDto());
     }
 
     @Override

@@ -1,6 +1,6 @@
-package it61.springlabs.vpsService.Repository;
+package it61.springlabs.vpsService.dal;
 
-import it61.springlabs.data.entities.Vps;
+import it61.springlabs.vpsService.entities.Vps;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

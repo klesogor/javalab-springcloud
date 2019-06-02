@@ -1,13 +1,11 @@
 package it61.springlabs.vpsService.Services;
 
-import it61.springlabs.data.dto.vps.VpsDTO;
+import it61.springlabs.data.dto.vps.VpsWriteDTO;
 import it61.springlabs.data.exceptions.DomainException;
 import it61.springlabs.data.exceptions.NotFoundException;
-import it61.springlabs.data.entities.User;
-import it61.springlabs.data.entities.Vps;
-import it61.springlabs.vpsService.Repository.UserRepository;
-import it61.springlabs.vpsService.Repository.VPSRepository;
+import it61.springlabs.vpsService.entities.Vps;
 import it61.springlabs.vpsService.Services.Contracts.VPSCrudService;
+import it61.springlabs.vpsService.dal.VPSRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -17,21 +15,19 @@ import java.util.UUID;
 @Service
 public final class VpsService implements VPSCrudService {
     private VPSRepository repository;
-    private UserRepository userRepository;
 
     @Autowired
-    public VpsService(VPSRepository repository, UserRepository userRepository) {
+    public VpsService(VPSRepository repository) {
         this.repository = repository;
-        this.userRepository = userRepository;
     }
 
     @Override
-    public Vps FindById(UUID id) throws DomainException {
+    public Vps FindById(UUID id) {
         return repository.findById(id).orElseThrow(() -> NotFoundException.of(id, "VPS"));
     }
 
     @Override
-    public void Delete(UUID id) throws DomainException {
+    public void Delete(UUID id) {
         repository.deleteById(id);
     }
 
@@ -41,15 +37,10 @@ public final class VpsService implements VPSCrudService {
     }
 
     @Override
-    public Vps Create(VpsDTO data) throws DomainException {
-        User user = data.getOwner() == null
-                ? null
-                : userRepository.findById(
-                        data.getOwner()
-        ).orElseThrow(()-> NotFoundException.of(data.getOwner(),"user"));
+    public Vps Create(VpsWriteDTO data) {
         Vps vps = new Vps
                 (
-                        user,
+                        data.getOwner(),
                         data.getOperatingSystem(),
                         data.getCpuCount(),
                         data.getCpuRate(),
@@ -61,14 +52,8 @@ public final class VpsService implements VPSCrudService {
     }
 
     @Override
-    public Vps Update(UUID id, VpsDTO data) throws DomainException {
+    public Vps Update(UUID id, VpsWriteDTO data) {
         Vps vps = FindById(id);
-        User user = data.getOwner() == null
-                ? null
-                : userRepository.findById(
-                        data.getOwner()
-        ).orElseThrow(()-> NotFoundException.of(data.getOwner(),"user"));
-        vps.setOwner(user);
         vps.setOperatingSystem(data.getOperatingSystem());
         vps.setCPUCount(data.getCpuCount());
         vps.setCPURate(data.getCpuRate());

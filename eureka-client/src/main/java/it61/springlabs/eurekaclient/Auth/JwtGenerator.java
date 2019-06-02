@@ -3,7 +3,7 @@ package it61.springlabs.eurekaclient.Auth;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import it61.springlabs.data.entities.User;
+import it61.springlabs.eurekaclient.entities.User;
 
 import java.util.Date;
 
