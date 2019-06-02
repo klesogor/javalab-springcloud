@@ -43,8 +43,6 @@ services:
                         dockerfile: docker/spring.docker
                 volumes:
                         - ./eureka-client:/usr/src/eureka-client
-                ports:
-                        - "8080:80"
                 networks:
                         - default
                 environment:
@@ -85,6 +83,14 @@ services:
                         - ./queue-consumer:/usr/src/queue-consumer
                 networks:
                         - default
+        frontend:
+                container_name: frontend
+                image: nginx:latest
+                volumes:
+                  - ./frontend/nginx:/etc/nginx
+                  - ./frontend/vue:/www/data/vue
+                ports:
+                  - "80:80"
         db:
                 container_name: spring-db
                 build:
