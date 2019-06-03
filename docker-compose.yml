@@ -85,10 +85,12 @@ services:
                         - default
         frontend:
                 container_name: frontend
-                image: nginx:latest
+                image: nginx:alpine
                 volumes:
                   - ./frontend/nginx:/etc/nginx
                   - ./frontend/vue:/www/data/vue
+                depends_on:
+                  - eureka-client
                 ports:
                   - "80:80"
         db:

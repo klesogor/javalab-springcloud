@@ -1,11 +1,10 @@
 import axios from "axios"
 import auth from "./auth"
 
-const http = axios.create({baseURL:"/api/v1"})
+const http = axios.create({baseURL:"http://localhost/api/v1"})
 http.interceptors.request.use(config => {
     if (auth.getToken()) {
-        config.headers['Authorization'] = 'Bearer ' + storageService.getToken();
-        config.headers['X-Socket-ID'] = Echo.socketId();
+        config.headers['Authorization'] = 'Bearer ' + auth.getToken();
     }
 
     return Promise.resolve(config);
@@ -13,3 +12,5 @@ http.interceptors.request.use(config => {
 error => {
     return Promise.reject(error);
 });
+
+export default http
