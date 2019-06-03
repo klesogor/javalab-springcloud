@@ -11,26 +11,34 @@ const state = {
 
 const actions = {
     fetch_user: ({commit}) => {
-        return http.get("auth/me").then(result => commit("SET_USER_DATA",result.data))
+        return http.get("me").then(result => commit("SET_USER_DATA",result.data.data))
     },
     login: ({commit},{username,password}) => {
-        http.post("auth/login",{username,password}).then(result => commit("SET_TOKEN",result.data))
+        http.post("auth/login",{username,password}).then(result => auth.setToken(result.data.data))
+    },
+    register: ({commit},{username,password,secret}) => {
+        http.post("auth/register",{username,password,secret, is_admin:false}).then(result => auth.setToken(result.data.data))
     }
 }
 
 const getters = {
-    isAdmin: (state) => state.roles.some('admin')
+    isAdmin: (state) => state.roles.some(r => r === ADMIN_ROLE),
+    isLoggedIn: (state) => !!state.user_id
 }
 
 const mutations = {
-    SET_TOKEN: (state,token) => {auth.setToken(token)},
-    SET_USER_DATA: (state,{username,id}) => state = {...state,username, user_id:id}
-
+    SET_USER_DATA: (state,{username,id,roles}) => state = {...state,username, user_id:id,roles}     ,
+    INVALIDATE_LOGIN: (state) => {
+        state = {...state, username: "",user_id:null,roles:[]}
+        auth.removeToken();
+        return state
+    }
 }
 
 export default {
     namespaced:true,
     actions,
     mutations,
-    state
+    state,
+    getters
 }

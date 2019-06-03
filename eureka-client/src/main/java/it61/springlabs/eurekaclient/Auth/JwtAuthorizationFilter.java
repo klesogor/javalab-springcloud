@@ -5,9 +5,7 @@ import io.jsonwebtoken.security.SignatureException;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +35,7 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         JwtToken authentication = getAuthentication(request);
         String header = request.getHeader(config.getTOKEN_HEADER());
 
-        if (StringUtils.isEmpty(header) || !header.startsWith(config.getTOKEN_PREFIX())) {
+        if (StringUtils.isEmpty(header) || !header.startsWith(config.getTOKEN_PREFIX()) || authentication == null) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -48,13 +46,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
     private JwtToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(config.getTOKEN_HEADER());
+        logger.info(config.getTOKEN_HEADER());
+        logger.info(request.getHeader(config.getTOKEN_HEADER()));
         if (StringUtils.isNotEmpty(token)) {
             try {
                 byte[] signingKey = config.getJWT_SECRET().getBytes();
-
                 Jws<Claims> parsedToken = Jwts.parser()
                         .setSigningKey(signingKey)
-                        .parseClaimsJws(token.replace("Bearer ", ""));
+                        .parseClaimsJws(token.replace( config.getTOKEN_PREFIX(), ""));
 
                 String username = parsedToken
                         .getBody()

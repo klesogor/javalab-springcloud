@@ -20,9 +20,9 @@ public class AuthConfigProvider {
     private String TOKEN_ISSUER;
     @Value("${auth.token_audience}")
     private String TOKEN_AUDIENCE;
-    @Value("${auth.token_audience}")
+    @Value("${auth.token_header}")
     private String TOKEN_HEADER;
-    @Value("${auth.token_audience}")
+    @Value("${auth.token_prefix}")
     private String TOKEN_PREFIX;
 
     public String getJWT_SECRET() {
