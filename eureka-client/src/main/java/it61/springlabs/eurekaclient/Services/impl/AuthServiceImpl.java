@@ -53,7 +53,8 @@ public final class AuthServiceImpl implements AuthService {
                 );
         AccountDetails details = new AccountDetails();
         details.setId(UUID.randomUUID());
-        user.setAccountDetails(detailsRepo.save(details));
+        details = detailsRepo.save(details);
+        user.setAccountDetails(details);
         return userRepo.save(user);
     }
 

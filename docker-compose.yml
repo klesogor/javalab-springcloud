@@ -83,16 +83,24 @@ services:
                         - ./queue-consumer:/usr/src/queue-consumer
                 networks:
                         - default
-        frontend:
-                container_name: frontend
+        proxy:
+                container_name: proxy
                 image: nginx:alpine
                 volumes:
                   - ./frontend/nginx:/etc/nginx
-                  - ./frontend/vue:/www/data/vue
                 depends_on:
                   - eureka-client
+                  - frontend
                 ports:
                   - "80:80"
+        frontend:
+                container_name: frontend
+                image: node:12.4-alpine
+                working_dir: /www/data/vue
+                command: npm run serve
+                volumes:
+                        - ./frontend/vue:/www/data/vue
+
         db:
                 container_name: spring-db
                 build:

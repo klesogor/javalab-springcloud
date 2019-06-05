@@ -36,7 +36,7 @@
           username:this.username,
           password:this.password
         }
-        this.$store.dispatch("auth/login",data).then(this.$router.push({path:"/"})).catch(() => alert("Unable to authenticate!"))
+        const prommise =  this.$store.dispatch("auth/login",data).then(_ => this.$router.push({path:"/"})).catch(() => alert("Unable to authenticate!"))
       }
     }
   }

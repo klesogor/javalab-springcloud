@@ -14,10 +14,10 @@ const actions = {
         return http.get("me").then(result => commit("SET_USER_DATA",result.data.data))
     },
     login: (_,{username,password}) => {
-        http.post("auth/login",{username,password}).then(result => auth.setToken(result.data.data))
+        return http.post("auth/login",{username,password}).then(result => auth.setToken(result.data.data))
     },
     register: (_,{username,password,secret}) => {
-        http.post("auth/register",{username,password,secret, is_admin:false}).then(result => auth.setToken(result.data.data))
+        return http.post("auth/register",{username,password,secret, is_admin:false}).then(result => auth.setToken(result.data.data))
     },
     logout: ({commit}) => {
         commit('INVALIDATE_LOGIN')

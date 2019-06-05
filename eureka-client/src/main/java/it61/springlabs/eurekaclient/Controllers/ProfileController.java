@@ -36,13 +36,14 @@ public class ProfileController {
     @PutMapping(value = "/api/v1/me/profile")
     public void updateProfile(@RequestBody AccountDetailsDto dto){
         JwtTokenDetails jwtTokenDetails = (JwtTokenDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        AccountDetails details = userRepo.findById(jwtTokenDetails.getUserId())
-                .orElseThrow(() -> NotFoundException.of(jwtTokenDetails.getUserId(),"user")).getAccountDetails();
+        AccountDetails details = userRepo.findById(jwtTokenDetails.getUserId()).orElseThrow(() -> NotFoundException.of(jwtTokenDetails.getUserId(),"user")).getAccountDetails();
         details.setAge(dto.getAge());
         details.setCity(dto.getCity());
         details.setCompany(dto.getCompany());
         details.setEmail(dto.getEmail());
         details.setPhone(dto.getPhone());
+
+        detailsRepo.save(details);
     }
 
     @DeleteMapping(value = "/api/v1/me/profile")

@@ -16,11 +16,9 @@
       <template v-else>
         <v-tooltip
         flat
-        href="/profile"
-        @click="$router.push({to:'profile'})"
         >
          <template v-slot:activator="{ on }">
-             <v-btn flat>
+             <v-btn flat href="/profile">
                 <span class="mr-2">{{username}}</span>
             </v-btn>
          </template>
@@ -30,7 +28,7 @@
         >
              <template v-slot:activator="{ on }">
              <v-btn icon @click="logout">
-                <v-icon dark large icon>exit_to_app</v-icon>
+                <v-icon dark icon>exit_to_app</v-icon>
             </v-btn>
          </template>
         </v-tooltip>
