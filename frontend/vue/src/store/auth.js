@@ -13,11 +13,15 @@ const actions = {
     fetch_user: ({commit}) => {
         return http.get("me").then(result => commit("SET_USER_DATA",result.data.data))
     },
-    login: ({commit},{username,password}) => {
+    login: (_,{username,password}) => {
         http.post("auth/login",{username,password}).then(result => auth.setToken(result.data.data))
     },
-    register: ({commit},{username,password,secret}) => {
+    register: (_,{username,password,secret}) => {
         http.post("auth/register",{username,password,secret, is_admin:false}).then(result => auth.setToken(result.data.data))
+    },
+    logout: ({commit}) => {
+        commit('INVALIDATE_LOGIN')
+        return Promise.resolve()
     }
 }
 
@@ -27,9 +31,15 @@ const getters = {
 }
 
 const mutations = {
-    SET_USER_DATA: (state,{username,id,roles}) => state = {...state,username, user_id:id,roles}     ,
+    SET_USER_DATA: (state,{username,id,roles}) =>{
+        state.username = username
+        state.user_id = id
+        state.roles = roles
+    },
     INVALIDATE_LOGIN: (state) => {
-        state = {...state, username: "",user_id:null,roles:[]}
+        state.username = ""
+        state.user_id = null
+        state.roles = []
         auth.removeToken();
         return state
     }

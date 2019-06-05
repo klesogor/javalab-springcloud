@@ -3,15 +3,15 @@ package it61.springlabs.data.dto.user;
 
 import java.util.UUID;
 
-public class AccountDetailsReadDto {
+public class AccountDetailsDto {
     private UUID id;
     private String phone;
     private String city;
     private String company;
-    private int age;
+    private Integer age;
     private String email;
 
-    public AccountDetailsReadDto(UUID id, String phone, String city, String company, int age, String email) {
+    public AccountDetailsDto(UUID id, String phone, String city, String company, Integer age, String email) {
         this.id = id;
         this.phone = phone;
         this.city = city;
@@ -36,7 +36,7 @@ public class AccountDetailsReadDto {
         return company;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 

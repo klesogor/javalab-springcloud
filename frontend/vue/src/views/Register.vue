@@ -87,7 +87,8 @@
     methods:{
       register: function(){
         if(this.$v.$invalid) return;
-        this.$store.dispatch('auth/register');  
+        this.$store.dispatch('auth/register',{username: this.username,password: this.password, secret: this.secret})
+        .then(_ => this.$router.push({path:'/'}));  
       },
     },
     computed:{

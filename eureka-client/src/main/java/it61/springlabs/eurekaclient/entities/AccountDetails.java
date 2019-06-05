@@ -1,6 +1,8 @@
 package it61.springlabs.eurekaclient.entities;
 
+import it61.springlabs.data.dto.user.AccountDetailsDto;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "acount_details")
+@Where(clause = "deleted = 0")
 public final class AccountDetails {
     @Id
     @Type(type = "uuid-char")
@@ -21,7 +24,7 @@ public final class AccountDetails {
     @Column
     private String company;
     @Column
-    private int age;
+    private Integer age;
     @Column
     private boolean deleted;
     @Column
@@ -86,4 +89,8 @@ public final class AccountDetails {
     public UUID getId() { return id; }
 
     public void setId(UUID id) { this.id = id; }
+
+    public AccountDetailsDto toDto(){
+        return new AccountDetailsDto(id,phone,city,company,age,email);
+    }
 }

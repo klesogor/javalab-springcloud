@@ -1,6 +1,9 @@
 package it61.springlabs.eurekaclient.Services.impl;
 
 import it61.springlabs.data.dto.user.UserRegistrationDTO;
+import it61.springlabs.data.exceptions.NotFoundException;
+import it61.springlabs.eurekaclient.dal.AccountDetailsRepository;
+import it61.springlabs.eurekaclient.entities.AccountDetails;
 import it61.springlabs.eurekaclient.entities.User;
 import it61.springlabs.data.exceptions.AuthException;
 import it61.springlabs.eurekaclient.Services.AuthService;
@@ -16,11 +19,13 @@ public final class AuthServiceImpl implements AuthService {
 
     private PasswordEncoder encoder;
     private UserRepository userRepo;
+    private AccountDetailsRepository detailsRepo;
 
     @Autowired
-    public AuthServiceImpl(PasswordEncoder encoder, UserRepository userRepo) {
+    public AuthServiceImpl(PasswordEncoder encoder, UserRepository userRepo, AccountDetailsRepository detailsRepo) {
         this.encoder = encoder;
         this.userRepo = userRepo;
+        this.detailsRepo = detailsRepo;
     }
 
     @Override
@@ -46,6 +51,17 @@ public final class AuthServiceImpl implements AuthService {
                         dto.getSecret(),
                         dto.isAdmin() ? "admin" : "user"
                 );
+        AccountDetails details = new AccountDetails();
+        details.setId(UUID.randomUUID());
+        user.setAccountDetails(detailsRepo.save(details));
         return userRepo.save(user);
+    }
+
+    @Override
+    public void DeleteUser(UUID id) {
+        User user = userRepo.findById(id).orElseThrow(() -> NotFoundException.of(id,"user"));
+        user.getAccountDetails().setDeleted(true);
+        user.setDeleted(true);
+        userRepo.save(user);
     }
 }

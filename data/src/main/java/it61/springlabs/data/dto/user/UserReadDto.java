@@ -9,10 +9,10 @@ public class UserReadDto {
     private UUID id;
     private String username;
     private List<String> roles;
-    private AccountDetailsReadDto accountDetails;
+    private AccountDetailsDto accountDetails;
     private List<VpsReadDto> vps;
 
-    public UserReadDto(UUID id, String username, List<String> roles, AccountDetailsReadDto accountDetails, List<VpsReadDto> vps) {
+    public UserReadDto(UUID id, String username, List<String> roles, AccountDetailsDto accountDetails, List<VpsReadDto> vps) {
         this.id = id;
         this.username = username;
         this.roles = roles;
@@ -32,7 +32,7 @@ public class UserReadDto {
         return roles;
     }
 
-    public AccountDetailsReadDto getAccountDetails() {
+    public AccountDetailsDto getAccountDetails() {
         return accountDetails;
     }
 
