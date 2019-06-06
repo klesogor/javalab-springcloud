@@ -42,8 +42,8 @@ public final class VpsService implements VPSCrudService {
                 (
                         data.getOwner(),
                         data.getOperatingSystem(),
-                        data.getCpuCount(),
-                        data.getCpuRate(),
+                        data.getСpuCount(),
+                        data.getСpuRate(),
                         data.getRam()
                 );
         repository.save(vps);
@@ -55,12 +55,17 @@ public final class VpsService implements VPSCrudService {
     public Vps Update(UUID id, VpsWriteDTO data) {
         Vps vps = FindById(id);
         vps.setOperatingSystem(data.getOperatingSystem());
-        vps.setCPUCount(data.getCpuCount());
-        vps.setCPURate(data.getCpuRate());
+        vps.setCPUCount(data.getСpuCount());
+        vps.setCPURate(data.getСpuRate());
         vps.setRAM(data.getRam());
 
         repository.save(vps);
 
         return vps;
+    }
+
+    @Override
+    public Iterable<Vps> getVpsForUser(UUID UserId) {
+        return repository.findAllByUserId(UserId);
     }
 }

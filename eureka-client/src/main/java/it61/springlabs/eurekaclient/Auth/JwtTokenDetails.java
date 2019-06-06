@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 public class JwtTokenDetails implements UserDetails {
     private Collection<? extends GrantedAuthority> authorities;
@@ -34,6 +35,10 @@ public class JwtTokenDetails implements UserDetails {
 
     public UUID getUserId(){
         return userId;
+    }
+
+    public boolean isAdmin(){
+        return StreamSupport.stream(authorities.spliterator(),false).anyMatch(a -> a.getAuthority().equals("admin"));
     }
 
     @Override

@@ -31,4 +31,8 @@ public interface VpsService {
     @DeleteMapping(value="/api/v1/vps/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Headers("Content-Type: application/json")
     void deleteVps(@PathVariable(name = "id") UUID id);
+
+    @GetMapping(value="/api/v1/vps/byUser/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Headers("Content-Type: application/json")
+    Response<Iterable<VpsReadDto>> findVpsByUser(@PathVariable(name = "id") UUID userId);
 }

@@ -62,4 +62,13 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     public void delete(@PathVariable(name = "id") UUID id) throws DomainException {
         service.Delete(id);
     }
+
+    @GetMapping(value = "/api/v1/vps/byUser/{id}")
+    public Response<Iterable<VpsReadDto>> getForUser(@PathVariable(name = "id") UUID userId){
+        return Response.Of(
+                StreamSupport.stream(service.getVpsForUser(userId).spliterator(),false)
+                        .map(Vps::toDto)
+                        .collect(Collectors.toList())
+        );
+    }
 }

@@ -2,9 +2,12 @@ package it61.springlabs.eurekaclient.Controllers;
 
 import it61.springlabs.data.dto.vps.VpsReadDto;
 import it61.springlabs.data.dto.vps.VpsWriteDTO;
+import it61.springlabs.data.exceptions.AuthException;
 import it61.springlabs.data.generic.Response;
+import it61.springlabs.eurekaclient.Auth.JwtTokenDetails;
 import it61.springlabs.eurekaclient.Services.VpsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @GetMapping("/api/v1/vps")
     @ResponseBody
     public Response<Iterable<VpsReadDto>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage){
+        if(!isAuthorized()) throw AuthException.of("Unauthorized!");
         return client.getAllVps(page,perPage);
     }
 
@@ -36,6 +40,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @PostMapping("/api/v1/vps")
     @ResponseBody
     public Response<VpsReadDto> create(@RequestBody VpsWriteDTO dto){
+        if(!isAuthorized()) throw AuthException.of("Unauthorized!");
         return client.createVps(dto);
     }
 
@@ -43,6 +48,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
     public Response<VpsReadDto> update(@PathVariable(name = "id") UUID id, @RequestBody VpsWriteDTO dto){
+        if(!isAuthorized()) throw AuthException.of("Unauthorized!");
         return client.updateVps(id,dto);
     }
 
@@ -50,6 +56,18 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @DeleteMapping("/api/v1/vps/{id}")
     @ResponseBody
     public void delete(@PathVariable(name = "id") UUID id){
+        if(!isAuthorized()) throw AuthException.of("Unauthorized!");
         client.deleteVps(id);
+    }
+
+    @GetMapping("/api/v1/vps/me")
+    @ResponseBody
+    public Response<Iterable<VpsReadDto>> myVps(){
+        JwtTokenDetails details = (JwtTokenDetails) SecurityContextHolder.getContext().getAuthentication().getDetails();
+        return client.findVpsByUser(details.getUserId());
+    }
+
+    private boolean isAuthorized(){
+        return ((JwtTokenDetails)SecurityContextHolder.getContext().getAuthentication().getDetails()).isAdmin();
     }
 }
