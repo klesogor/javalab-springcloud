@@ -5,8 +5,14 @@ const state = {
     byId: {}
 }
 
+const getters = {
+    usersOnly(state){
+        return state.all.filter(u => !u.roles.some(r => r == "admin"))
+    }
+}
+
 const mutations = {
-    SET_STATE = (state,users) => {
+    SET_STATE: (state,users) => {
         state.all = users;
         state.byId = users.reduce((acc,cur) => {acc[cur.id] = cur;return acc},{})
     }
@@ -22,5 +28,6 @@ export default {
     namespaced: true,
     state,
     mutations,
-    actions
+    actions,
+    getters
 }

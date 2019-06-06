@@ -16,7 +16,7 @@ const state = {
 }
 
 const mutations = {
-    SET_CURRENT: (state,id) => {state.current = !!state.byId[id] ? {...state.byId[id]} : {...defaultCurrent}},
+    SET_CURRENT: (state,id) => {state.current = state.byId[id] ? {...state.byId[id]} : {...defaultCurrent}},
     SET_VPS: (state,vps) => {
         state.all = vps;
         state.byId = vps.reduce((acc,cur) => {acc[cur.id] = cur; return acc}, {})

@@ -1,13 +1,17 @@
 <template>
-  <HelloWorld />
+  <AdminHome v-if="isAdmin" />
 </template>
 
 <script>
-  import HelloWorld from '../components/HelloWorld'
-
+import AdminHome from "../components/homepage/Admin"
   export default {
     components: {
-      HelloWorld
+      AdminHome
+    },
+    computed: {
+      isAdmin(){
+        return this.$store.getters["auth/isAdmin"]
+      }
     }
   }
 </script>

@@ -24,7 +24,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @Override
     @GetMapping("/api/v1/vps")
     @ResponseBody
-    public Response<Iterable<VpsReadDto>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10")  Integer perPage){
+    public Response<Iterable<VpsReadDto>> getAll(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "100")  Integer perPage){
         if(!isAuthorized()) throw AuthException.of("Unauthorized!");
         return client.getAllVps(page,perPage);
     }

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
 import auth from "./auth"
 import profile from "./profile"
+import users from "./users"
+import vps from "./vps"
 
 Vue.use(Vuex)
 
@@ -15,7 +17,9 @@ export default new Vuex.Store({
   },
   modules:{
     auth,
-    profile
+    profile,
+    users,
+    vps
   },
   plugins: [createPersistedState()]
 })
