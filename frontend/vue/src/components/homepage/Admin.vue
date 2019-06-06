@@ -1,5 +1,5 @@
 <template>
-    <v-layout>
+    <v-layout row justify-space-between>
         <template v-for="id in vps">
             <v-flex xs12 sm6 md4 lg3 :key="id">
                 <Vps :id=id />
@@ -24,7 +24,7 @@ export default {
     },
     computed:{
         vps(){
-            return this.$state.vps.all.map(x => x.id)
+            return this.$store.state.vps.all.map(x => x.id)
         }
     }
 }

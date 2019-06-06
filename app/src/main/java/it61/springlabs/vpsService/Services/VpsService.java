@@ -40,7 +40,7 @@ public final class VpsService implements VPSCrudService {
     public Vps Create(VpsWriteDTO data) {
         Vps vps = new Vps
                 (
-                        data.getOwner(),
+                        data.getUserId(),
                         data.getOperatingSystem(),
                         data.getСpuCount(),
                         data.getСpuRate(),

@@ -4,19 +4,15 @@ import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 public final class VpsWriteDTO {
-    @NotNull
     private String operatingSystem;
-    private UUID owner_id;
-    @NotNull
+    private UUID userId;
     private Integer cpuCount;
-    @NotNull
     private Double cpuRate;
-    @NotNull
     private Double ram;
 
-    public VpsWriteDTO(String operatingSystem, UUID owner, Integer cpuCount, Double cpuRate, Double ram) {
+    public VpsWriteDTO(String operatingSystem, UUID userId, Integer cpuCount, Double cpuRate, Double ram) {
         this.operatingSystem = operatingSystem;
-        this.owner_id = owner;
+        this.userId = userId;
         this.cpuCount = cpuCount;
         this.cpuRate = cpuRate;
         this.ram = ram;
@@ -26,8 +22,8 @@ public final class VpsWriteDTO {
         return operatingSystem;
     }
 
-    public UUID  getOwner() {
-        return owner_id;
+    public UUID getUserId() {
+        return userId;
     }
 
     public Integer getСpuCount() {

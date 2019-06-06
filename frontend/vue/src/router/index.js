@@ -36,7 +36,7 @@ const authRoutes = [
     component: Profile
   },
   {
-    path: '/vps/form/:id',
+    path: '/vps/form/:id?',
     name: "vpsForm",
     component: VpsForm
   }

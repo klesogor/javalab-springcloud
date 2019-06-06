@@ -1,10 +1,10 @@
 import http from '../services/http'
 
 const defaultCurrent = {
-    ownerId:null,
+    userId:null,
     operatingSystem: null,
-    cpuCount: 0,
-    cpuRate:0.0,
+    cpucount: 0,
+    cpurate:0.0,
     ram:0.0
 
 }

@@ -10,15 +10,17 @@
               <v-card-text>
                 <v-form>
                   <v-select 
+                  label="Operating system"
                     v-model="operatingSystem"
                     :items="osList"
-                  />
-                  <v-select
-                    v-model="userId"
-                    :items="users"
                     :error-messages="osErrors"
                     @input="$v.operatingSystem.$touch"
                     @blur="$v.operatingSystem.$touch"
+                  />
+                  <v-select
+                    label="Owner"
+                    v-model="userId"
+                    :items="users"
                     item-text="username"
                     item-value="id"
                   />
@@ -82,11 +84,18 @@
     methods:{
         post(){
             if(this.$v.$invalid) return;
+            const data = {
+                operatingSystem: this.operatingSystem,
+                userId: this.userId,
+                cpucount: +this.cpuCount,
+                cpurate: +this.cpuRate,
+                ram: +this.ram
+            }
             let prom;
-            if(this.$route.param.id){
-                prom = this.$state.dispatch("vps/update",{id:this.$route.param.id,vps:this.state})
+            if(this.$route.params.id){
+                prom = this.$store.dispatch("vps/update",{id:this.$route.params.id,vps:data})
             } else {
-                prom = this.$state.dispatch("vps/create",this.state)
+                prom = this.$store.dispatch("vps/create",data)
             }
 
             prom.then(_ => this.$router.push({to:"/"}))
@@ -100,7 +109,7 @@
             return this.$route.params.id ? "Update" : "Create"
         },
         users(){
-            return this.$store.getters["users/onlyUsers"]
+            return this.$store.getters["users/usersOnly"]
         },
 
         operatingSystem:{
@@ -108,23 +117,23 @@
                 return this.state.operatingSystem
             },
             set(val){
-                return this.$store.commit("vps/UPDATE_VPS", {...this.state,operatingSystem:val})
+                return this.$store.commit("vps/UPDATE_CURRENT", {...this.state,operatingSystem:val})
             }
         },
         cpuCount:{
             get(){
-                return this.state.cpuCount
+                return this.state.cpucount
             },
             set(val){
-                return this.$store.commit("vps/UPDATE_VPS", {...this.state,cpuCount:val})
+                return this.$store.commit("vps/UPDATE_CURRENT", {...this.state,cpucount:val})
             }
         },
         cpuRate:{
             get(){
-                return this.state.cpuRate
+                return this.state.cpurate
             },
             set(val){
-                return this.$store.commit("vps/UPDATE_VPS", {...this.state,cpuRate:val})
+                return this.$store.commit("vps/UPDATE_CURRENT", {...this.state,cpurate:val})
             }
         },
         ram:{
@@ -132,7 +141,7 @@
                 return this.state.ram
             },
             set(val){
-                return this.$store.commit("vps/UPDATE_VPS", {...this.state,ram:val})
+                return this.$store.commit("vps/UPDATE_CURRENT", {...this.state,ram:val})
             }
         },
         userId:{
@@ -140,7 +149,7 @@
                 return this.state.userId
             },
             set(val){
-                return this.$store.commit("vps/UPDATE_VPS", {...this.state,userId:val})
+                return this.$store.commit("vps/UPDATE_CURRENT", {...this.state,userId:val})
             }
         },
         osErrors(){
