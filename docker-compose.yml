@@ -6,31 +6,26 @@ services:
                         - eureka-server
                 container_name: spring-app
                 build:
-                        context: ./app
-                        dockerfile: docker/spring.docker
+                        context: ./docker
+                        dockerfile: spring.dockerfile
                 volumes:
-                        - ./app:/usr/src/app
-                        - maven_cache:/usr/src/.maven-cache
-                networks:
-                        - default
+                        - ./app:/app
                 environment:
-                        DB_HOST: spring-db:3306
                         APP_NAME: test-app-1
+                command: sh -c "/usr/bin/java -jar /app/target/yet-another-lab-lab.jar"
+
         eureka-server:
                 depends_on:
                         - db
                 container_name: eureka-server
                 build:
-                        context: ./eureka-server
-                        dockerfile: docker/spring.docker
+                        context: ./docker
+                        dockerfile: spring.dockerfile
                 volumes:
-                        - ./eureka-server:/usr/src/eureka-server
-                networks:
-                        - default
+                        - ./eureka-server:/app
                 ports:
                   - "8761:8761"
-                environment:
-                        DB_HOST: spring-db:3306
+                command: sh -c "/usr/bin/java -jar /app/target/eureka-server-lab.jar"
         eureka-client:
                 depends_on:
                         - config-server
@@ -39,34 +34,28 @@ services:
                         - rabbit-mq-consumer
                 container_name: eureka-client
                 build:
-                        context: ./eureka-client
-                        dockerfile: docker/spring.docker
+                        context: docker
+                        dockerfile: spring.dockerfile
                 volumes:
-                        - ./eureka-client:/usr/src/eureka-client
-                networks:
-                        - default
-                environment:
-                        DB_HOST: spring-db:3306
+                        - ./eureka-client:/app
+                command: sh -c "/cmd/awaiter.sh && /usr/bin/java -jar /app/target/eureka-client-lab.jar"
+
         config-server:
                 depends_on:
                   - rabbit-mq
                 build:
-                  context: ./config-server
-                  dockerfile: docker/spring.docker
+                  context: docker
+                  dockerfile: spring.dockerfile
                 container_name: config-server
                 volumes:
-                        - ./config-server:/usr/src/config-server
-                        - maven_cache:/usr/src/.maven-cache
-                networks:
-                        - default
+                        - ./config-server:/app
                 ports:
                   - "9999:8888"
+                command: sh -c "/usr/bin/java -jar /app/target/config-server-lab.jar"
         rabbit-mq:
                 image: rabbitmq:3.8.0-beta.3-management
                 hostname: rabbit-mq
                 container_name: rabbit-mq
-                networks:
-                  - default
                 environment:
                         RABBITMQ_ERLANG_COOKIE: secret
                         RABBITMQ_NODENAME: rabbit@rabbit-mq
@@ -76,13 +65,13 @@ services:
                 depends_on:
                   - rabbit-mq
                 build:
-                        context: ./queue-consumer
-                        dockerfile: docker/spring.docker
+                        context: ./docker
+                        dockerfile: spring.dockerfile
                 container_name: rabbit-mq-consumer
                 volumes:
-                        - ./queue-consumer:/usr/src/queue-consumer
-                networks:
-                        - default
+                        - ./queue-consumer:/app
+                command: sh -c "sleep 10 && /usr/bin/java -jar /app/target/hosting-queue-consumer-lab.jar"
+
         proxy:
                 container_name: proxy
                 image: nginx:alpine
@@ -103,9 +92,7 @@ services:
 
         db:
                 container_name: spring-db
-                build:
-                        context: ./docker
-                        dockerfile: database.docker
+                image: mysql:5.7
                 volumes:
                         - db_data:/var/lib/mysql
                 environment:

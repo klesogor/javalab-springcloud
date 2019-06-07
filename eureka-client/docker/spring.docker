@@ -1,6 +1,0 @@
-FROM alpine:edge
-MAINTAINER klesogor
-WORKDIR /usr/src/eureka-client
-RUN apk update && apk add --no-cache openjdk8 maven nss curl
-CMD while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' config-server:8888/ping)" != "200" ]]; do sleep 5 && echo "attempting to connect to config-server"; done && \
-    /usr/bin/java -jar /usr/src/eureka-client/target/eureka-client-lab.jar
