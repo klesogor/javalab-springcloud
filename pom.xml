@@ -16,6 +16,7 @@
         <module>app</module>
         <module>eureka-server</module>
         <module>queue-consumer</module>
+        <module>ticket-service</module>
     </modules>
     <groupId>it61.spring-labs</groupId>
     <artifactId>parent</artifactId>

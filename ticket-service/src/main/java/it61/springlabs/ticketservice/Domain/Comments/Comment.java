@@ -15,14 +15,11 @@ public class Comment {
     private UUID id;
     private String text;
     private UUID fromId;
-    @ManyToOne(targetEntity = Ticket.class)
-    private UUID ticketId;
 
-    public Comment(String text, UUID from, UUID ticketId) {
+    public Comment(String text, UUID from) {
         this.id = UUID.randomUUID();
         this.text = text;
         this.fromId = from;
-        this.ticketId = ticketId;
     }
 
     public Comment(){}
@@ -42,15 +39,6 @@ public class Comment {
 
     public Comment setFrom(UUID from) {
         this.fromId = from;
-        return this;
-    }
-
-    public UUID getTicketId() {
-        return ticketId;
-    }
-
-    public Comment setTicketId(UUID ticketId) {
-        this.ticketId = ticketId;
         return this;
     }
 

@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface TicketRepository extends CrudRepository<Ticket, UUID> {
     Iterable<Ticket> getTicketsByVpsId(UUID vpsId);
+    Iterable<Ticket> getTicketsByUserId(UUID userId);
 }

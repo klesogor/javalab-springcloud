@@ -2,6 +2,7 @@ package it61.springlabs.ticketservice.Domain.Tickets;
 
 import it61.springlabs.ticketservice.Domain.Comments.Comment;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tickets")
+@Where(clause = "closedat = null")
 public final class Ticket {
     @Id
     @Column(name = "id", updatable = false, nullable = false)
