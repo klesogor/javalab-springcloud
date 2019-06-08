@@ -1,22 +1,30 @@
 package it61.springlabs.data.dto.vps;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.UUID;
 
 public class VpsReadDto {
+    @JsonProperty("id")
     private UUID id;
+    @JsonProperty("userId")
     private UUID userId;
+    @JsonProperty("operatingSystem")
     private String operatingSystem;
-    private Integer CPUCount;
-    private Double CPURate;
-    private Double RAM;
+    @JsonProperty("cpucount")
+    private Integer cpuCount;
+    @JsonProperty("cpurate")
+    private Double cpuRate;
+    @JsonProperty("ram")
+    private Double ram;
 
     public VpsReadDto(UUID id, UUID userId, String operatingSystem, Integer CPUCount, Double CPURate, Double RAM) {
         this.id = id;
         this.userId = userId;
         this.operatingSystem = operatingSystem;
-        this.CPUCount = CPUCount;
-        this.CPURate = CPURate;
-        this.RAM = RAM;
+        this.cpuCount = CPUCount;
+        this.cpuRate = CPURate;
+        this.ram = RAM;
     }
 
     public VpsReadDto() {
@@ -34,15 +42,15 @@ public class VpsReadDto {
         return operatingSystem;
     }
 
-    public Integer getCPUCount() {
-        return CPUCount;
+    public Integer getCpuCount() {
+        return cpuCount;
     }
 
-    public Double getCPURate() {
-        return CPURate;
+    public Double getCpuRate() {
+        return cpuRate;
     }
 
-    public Double getRAM() {
-        return RAM;
+    public Double getRam() {
+        return ram;
     }
 }

@@ -75,10 +75,10 @@
     created(){
         this.$store.commit("SET_LOADING", true)
         Promise.all([
-            this.$store.dispatch("vps/fetch"),
+            this.$store.dispatch("vps/fetchById", this.$route.params.id),
             this.$store.dispatch("users/fetch"),
         ])
-            .then(_ => this.$store.commit("vps/SET_CURRENT",this.id))
+            .then(_ => this.$store.commit("vps/SET_CURRENT",this.$route.params.id))
             .then(_ => this.$store.commit("SET_LOADING", false))
     },
     methods:{
@@ -90,15 +90,14 @@
                 cpucount: +this.cpuCount,
                 cpurate: +this.cpuRate,
                 ram: +this.ram
-            }
+            }   
             let prom;
             if(this.$route.params.id){
                 prom = this.$store.dispatch("vps/update",{id:this.$route.params.id,vps:data})
             } else {
                 prom = this.$store.dispatch("vps/create",data)
             }
-
-            prom.then(_ => this.$router.push({to:"/"}))
+            prom.then(_ => this.$router.push({path:"/"}))
         }
     },
     computed:{

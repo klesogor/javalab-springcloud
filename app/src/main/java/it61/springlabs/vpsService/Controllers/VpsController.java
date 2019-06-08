@@ -6,6 +6,8 @@ import it61.springlabs.data.dto.vps.VpsWriteDTO;
 import it61.springlabs.data.exceptions.DomainException;
 import it61.springlabs.vpsService.entities.Vps;
 import it61.springlabs.vpsService.Services.VpsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +19,6 @@ import java.util.stream.StreamSupport;
 
 @RestController
 public final class VpsController implements CRUDControllerInterface<VpsReadDto, VpsWriteDTO> {
-
     private VpsService service;
 
     @Autowired
@@ -45,14 +46,14 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @Override
     @PostMapping("/api/v1/vps")
     @ResponseBody
-    public Response<VpsReadDto> create(@Valid @RequestBody VpsWriteDTO dto, BindingResult binding) throws DomainException {
+    public Response<VpsReadDto> create(@RequestBody VpsWriteDTO dto) throws DomainException {
         return Response.Of(service.Create(dto).toDto());
     }
 
     @Override
     @PutMapping("/api/v1/vps/{id}")
     @ResponseBody
-    public Response<VpsReadDto> update(@PathVariable(name = "id") UUID id, @Valid @RequestBody VpsWriteDTO dto, BindingResult binding) throws DomainException {
+    public Response<VpsReadDto> update(@PathVariable(name = "id") UUID id, @RequestBody VpsWriteDTO dto) throws DomainException {
         return Response.Of(service.Update(id,dto).toDto());
     }
 

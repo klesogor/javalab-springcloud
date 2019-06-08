@@ -1,13 +1,20 @@
 package it61.springlabs.data.dto.vps;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
 
 public final class VpsWriteDTO {
+    @JsonProperty("operatingSystem")
     private String operatingSystem;
+    @JsonProperty("userId")
     private UUID userId;
+    @JsonProperty("cpucount")
     private Integer cpuCount;
+    @JsonProperty("cpurate")
     private Double cpuRate;
+    @JsonProperty("ram")
     private Double ram;
 
     public VpsWriteDTO(String operatingSystem, UUID userId, Integer cpuCount, Double cpuRate, Double ram) {
@@ -26,11 +33,11 @@ public final class VpsWriteDTO {
         return userId;
     }
 
-    public Integer getСpuCount() {
+    public Integer getCpuCount() {
         return cpuCount;
     }
 
-    public Double getСpuRate() {
+    public Double getCpuRate() {
         return cpuRate;
     }
 

@@ -3,15 +3,24 @@
         <v-card-title primary-title>
             <h3 class="headline mb-0">{{vps.operatingSystem}}</h3>
             <v-flex xs12>
-                Owner: <span class="font-weight-medium">{{owner}}</span>
+                <span class="caption font-weight-lite grey--text">{{vps.id}}</span>
+            </v-flex>
+            <v-flex xs12>
+                Owner: <span class="font-weight-medium">{{vps.owner}}</span>
             </v-flex>
             <v-flex xs12>
                 Status: <span :class="statusClass">{{statusText}}</span>
             </v-flex>
         </v-card-title>
-        <v-card-actions v-if="canMutate">
-            <v-btn flat color="error">Delete</v-btn>
-            <v-btn flat color="info">Edit</v-btn>
+        <v-card-actions>
+        <template v-if="canMutate">
+            <v-btn @click="remove" color="error">Delete</v-btn>
+            <v-spacer />
+            <v-btn :href="`/vps/form/${vps.id}`" color="info">Edit</v-btn>
+        </template>
+        <template v-else>
+            <v-btn href="/ticket/create">Create ticket</v-btn>
+        </template>
         </v-card-actions>
     </v-card>
 </template>
@@ -19,22 +28,15 @@
 <script>
 export default {
     props:{
-        id: String
+        vps: Object,
+        canMutate: Boolean
     },
     computed:{
-        vps(){
-            console.log(this.id)
-            return this.$store.state.vps.byId[this.id]
-        },
         online(){
             return Math.random() > 0.5 ? true : false;
         },
         statusText(){
             return this.online ? "ONLINE" : "OFFLINE"
-        },
-        owner(){
-            const user = this.$store.state.users.byId[this.vps.userId]
-            return user ? user.username : "No user yet"
         },
         statusClass(){
             return {
@@ -43,8 +45,10 @@ export default {
                 "text--accent-3": true
             }
         },
-        canMutate(){
-            return this.$store.getters["auth/isAdmin"]
+    },
+    methods: {
+        remove(){
+            this.$emit("remove", this.vps.id)
         }
     }
 }
