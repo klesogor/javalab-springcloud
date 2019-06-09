@@ -13,7 +13,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private AuthConfigProvider config;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and()
@@ -45,9 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthConfigProvider authConfig(){
-        if(config == null) config = new AuthConfigProvider();
-
-        return config;
+        return new AuthConfigProvider();
     }
 
     @Bean

@@ -20,74 +20,81 @@ import java.util.stream.StreamSupport;
 
 @RestController
 public class TicketController {
-    @GetMapping(value="/api/v1/ticket/forVps/{vpsId}")
-    public Response<Iterable<TicketReadDto>> GetActiveTicketsForVps
-            (
-                    @PathVariable(value = "vpsId") UUID vpsId,
-                    @Autowired GetTicketsForVps usecase
-            )
-    {
+    private CloseTicket closeTicket;
+    private CommentTicket commentTicket;
+    private CreateTicket createTicket;
+    private GetTicketById ticketById;
+    private GetTickets getTickets;
+    private GetUserTickets getUserTickets;
+    private GetTicketsForVps getTicketsForVps;
+
+    @Autowired
+    public TicketController(CloseTicket closeTicket, CommentTicket commentTicket, CreateTicket createTicket, GetTicketById ticketById, GetTickets getTickets, GetUserTickets getUserTickets, GetTicketsForVps getTicketsForVps) {
+        this.closeTicket = closeTicket;
+        this.commentTicket = commentTicket;
+        this.createTicket = createTicket;
+        this.ticketById = ticketById;
+        this.getTickets = getTickets;
+        this.getUserTickets = getUserTickets;
+        this.getTicketsForVps = getTicketsForVps;
+    }
+
+    @GetMapping(value = "/api/v1/ticket/forVps/{vpsId}")
+    public Response<Iterable<TicketReadDto>> GetActiveTicketsForVps(@PathVariable(value = "vpsId") UUID vpsId) {
         return Response.Of(
-                StreamSupport.stream(usecase.handle(vpsId).spliterator(),false)
-                .map(t ->  ticketToDto(t, new ArrayList<>()))
-                .collect(Collectors.toList())
+                StreamSupport.stream(getTicketsForVps.handle(vpsId).spliterator(), false)
+                        .map(t -> ticketToDto(t, new ArrayList<>()))
+                        .collect(Collectors.toList())
         );
     }
 
     @GetMapping(value = "/api/v1/ticket/byUser/{userId}")
-    public Response<Iterable<TicketReadDto>> GetActiveTicketsForUser
-            (
-                    @PathVariable(value = "userId") UUID userId,
-                    @Autowired GetUserTickets usecase
-            )
-    {
+    public Response<Iterable<TicketReadDto>> GetActiveTicketsForUser(@PathVariable(value = "userId") UUID userId) {
         return Response.Of(
-                StreamSupport.stream(usecase.handle(userId).spliterator(),false)
-                        .map(t ->  ticketToDto(t, new ArrayList<>()))
+                StreamSupport.stream(getUserTickets.handle(userId).spliterator(), false)
+                        .map(t -> ticketToDto(t, new ArrayList<>()))
                         .collect(Collectors.toList())
         );
     }
 
     @GetMapping(value = "/api/v1/ticket")
-    public Response<Iterable<TicketReadDto>> GetTickets(@Autowired GetTickets usecase){
+    public Response<Iterable<TicketReadDto>> GetTickets() {
         return Response.Of(
-                StreamSupport.stream(usecase.getTickets().spliterator(),false)
-                        .map(t ->  ticketToDto(t, new ArrayList<>()))
+                StreamSupport.stream(getTickets.getTickets().spliterator(), false)
+                        .map(t -> ticketToDto(t, new ArrayList<>()))
                         .collect(Collectors.toList())
         );
     }
 
     @GetMapping(value = "/api/v1/ticket/{id}")
-    public Response<TicketReadDto> GetTicket(@PathVariable(value = "id") UUID ticketId, @Autowired GetTicketById usecase){
-        Ticket ticket = usecase.getTicket(ticketId);
-        return Response.Of(ticketToDto(ticket,ticket.getComments()));
+    public Response<TicketReadDto> GetTicket(@PathVariable(value = "id") UUID ticketId) {
+        Ticket ticket = ticketById.getTicket(ticketId);
+        return Response.Of(ticketToDto(ticket, ticket.getComments()));
     }
 
-    @PostMapping(value="/api/v1/ticket")
-    public Response<TicketReadDto> CreateTicket(@RequestBody TicketWriteDto dto, @Autowired CreateTicket usecase) {
-        return Response.Of(ticketToDto(usecase.createTicket(dto), new ArrayList<>()));
+    @PostMapping(value = "/api/v1/ticket")
+    public Response<TicketReadDto> CreateTicket(@RequestBody TicketWriteDto dto) {
+        return Response.Of(ticketToDto(createTicket.createTicket(dto), new ArrayList<>()));
     }
 
     @PutMapping(value = "/api/v1/ticket/{id}/comment")
     public Response<TicketReadDto> CommentTicket
             (
                     @PathVariable(name = "id") UUID id,
-                    @RequestBody CommentWriteDTO comment,
-                    @Autowired CommentTicket usecase
-            )
-    {
-        Ticket res = usecase.Comment(comment,id);
-        return  Response.Of(ticketToDto(res,res.getComments()));
+                    @RequestBody CommentWriteDTO comment
+            ) {
+        Ticket res = commentTicket.Comment(comment, id);
+        return Response.Of(ticketToDto(res, res.getComments()));
     }
 
     @DeleteMapping(value = "/api/v1/ticket/{id}")
-    public void CloseTicket(@PathVariable(value = "id") UUID ticketId, @Autowired CloseTicket usecase){
-        usecase.closeTicket(ticketId, new Date());
+    public void CloseTicket(@PathVariable(value = "id") UUID ticketId) {
+        closeTicket.closeTicket(ticketId, new Date());
     }
 
-    private TicketReadDto ticketToDto(Ticket ticket, Iterable<Comment> comments){
-        Iterable<CommentReadDto> comm = StreamSupport.stream(comments.spliterator(),false)
-                .map(c -> new CommentReadDto(c.getId(),c.getText(),c.getFromId()))
+    private TicketReadDto ticketToDto(Ticket ticket, Iterable<Comment> comments) {
+        Iterable<CommentReadDto> comm = StreamSupport.stream(comments.spliterator(), false)
+                .map(c -> new CommentReadDto(c.getId(), c.getText(), c.getFromId()))
                 .collect(Collectors.toList());
         return new TicketReadDto(
                 ticket.getId(),

@@ -12,7 +12,7 @@ services:
                         - ./app:/app
                 environment:
                         APP_NAME: test-app-1
-                command: sh -c "/usr/bin/java -jar /app/target/yet-another-lab-lab.jar"
+                command: sh -c "/cmd/awaiter.sh && /usr/bin/java -jar /app/target/yet-another-lab-lab.jar"
 
         eureka-server:
                 depends_on:
@@ -39,6 +39,19 @@ services:
                 volumes:
                         - ./eureka-client:/app
                 command: sh -c "/cmd/awaiter.sh && /usr/bin/java -jar /app/target/eureka-client-lab.jar"
+        ticket-service:
+                depends_on:
+                        - config-server
+                        - rabbit-mq
+                        - eureka-server
+                        - rabbit-mq-consumer
+                container_name: ticket-service
+                build:
+                        context: docker
+                        dockerfile: spring.dockerfile
+                volumes:
+                        - ./ticket-service:/app
+                command: sh -c "/cmd/awaiter.sh && /usr/bin/java -jar /app/target/ticket-service-lab.jar"
 
         config-server:
                 depends_on:

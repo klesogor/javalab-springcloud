@@ -11,7 +11,8 @@ import java.util.UUID;
 public class GetTickets {
     private TicketRepository ticketRepository;
 
-    public GetTickets(@Autowired TicketRepository repository){
+    @Autowired
+    public GetTickets(TicketRepository repository){
         this.ticketRepository = repository;
     }
 

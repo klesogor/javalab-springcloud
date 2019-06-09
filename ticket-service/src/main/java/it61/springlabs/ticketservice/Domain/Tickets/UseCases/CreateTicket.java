@@ -11,7 +11,9 @@ import java.util.Date;
 @Component
 public class CreateTicket {
     private TicketRepository repository;
-    public CreateTicket(@Autowired TicketRepository repository){
+
+    @Autowired
+    public CreateTicket(TicketRepository repository){
         this.repository = repository;
     }
 

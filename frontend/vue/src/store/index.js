@@ -5,6 +5,7 @@ import auth from "./auth"
 import profile from "./profile"
 import users from "./users"
 import vps from "./vps"
+import tickets from "./tickets"
 
 Vue.use(Vuex)
 
@@ -13,13 +14,14 @@ export default new Vuex.Store({
     is_loaded:true
   },
   mutations: {
-    SET_LOADING: (state, payload) => state.is_loaded = payload
+    SET_LOADING: (state, payload) => state.is_loaded = !payload
   },
   modules:{
     auth,
     profile,
     users,
-    vps
+    vps,
+    tickets
   },
   plugins: [createPersistedState()]
 })

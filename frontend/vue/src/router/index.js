@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Profile from '../views/Profile.vue'
 import VpsForm from "../views/vps/Form"
+import TicketDetails from "../views/tickets/Details"
 import {auth,guest} from './middleware'
 
 Vue.use(Router)
@@ -39,6 +40,11 @@ const authRoutes = [
     path: '/vps/form/:id?',
     name: "vpsForm",
     component: VpsForm
+  },
+  {
+    path: '/ticket/:id',
+    name: "ticketDetails",
+    component:TicketDetails
   }
 ]
 

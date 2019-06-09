@@ -19,14 +19,20 @@
             <v-btn :href="`/vps/form/${vps.id}`" color="info">Edit</v-btn>
         </template>
         <template v-else>
-            <v-btn href="/ticket/create">Create ticket</v-btn>
+            <TicketModal
+                :vpsId="vps.id"
+                :userId="$store.state.auth.user_id"
+                @create="createTicket"
+             />
         </template>
         </v-card-actions>
     </v-card>
 </template>
 
 <script>
+import TicketModal from "../ticket/Modal"
 export default {
+    components: {TicketModal},
     props:{
         vps: Object,
         canMutate: Boolean
@@ -49,6 +55,9 @@ export default {
     methods: {
         remove(){
             this.$emit("remove", this.vps.id)
+        },
+        createTicket(payload){
+            this.$emit("createTicket", payload)
         }
     }
 }
