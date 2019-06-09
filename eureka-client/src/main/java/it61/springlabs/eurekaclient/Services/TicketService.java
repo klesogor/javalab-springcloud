@@ -31,9 +31,9 @@ public interface TicketService {
     @Headers("Content-Type: application/json")
     Response<TicketReadDto> CreateTicket(@RequestBody TicketWriteDto dto);
 
-    @PutMapping(value = "/api/v1/ticket/{id}/comment")
+    @PutMapping(value = "/api/v1/ticket/comment")
     @Headers("Content-Type: application/json")
-    Response<TicketReadDto> CommentTicket(@PathVariable(name = "id") UUID id,@RequestBody CommentWriteDTO comment);
+    Response<TicketReadDto> CommentTicket(@RequestBody CommentWriteDTO comment);
 
     @DeleteMapping(value = "/api/v1/ticket/{id}")
     @Headers("Content-Type: application/json")

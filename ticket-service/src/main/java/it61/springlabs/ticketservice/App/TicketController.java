@@ -77,13 +77,12 @@ public class TicketController {
         return Response.Of(ticketToDto(createTicket.createTicket(dto), new ArrayList<>()));
     }
 
-    @PutMapping(value = "/api/v1/ticket/{id}/comment")
+    @PutMapping(value = "/api/v1/ticket/comment")
     public Response<TicketReadDto> CommentTicket
             (
-                    @PathVariable(name = "id") UUID id,
                     @RequestBody CommentWriteDTO comment
             ) {
-        Ticket res = commentTicket.Comment(comment, id);
+        Ticket res = commentTicket.Comment(comment, comment.getTicketId());
         return Response.Of(ticketToDto(res, res.getComments()));
     }
 

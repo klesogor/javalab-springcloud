@@ -49,11 +49,6 @@ public class TicketController {
         return service.CreateTicket(dto);
     }
 
-    @PutMapping(value = "/api/v1/ticket/{id}/comment")
-    Response<TicketReadDto> CommentTicket(@PathVariable(name = "id") UUID id,@RequestBody CommentWriteDTO comment){
-        return service.CommentTicket(id,comment);
-    }
-
     @DeleteMapping(value = "/api/v1/ticket/{id}")
     void CloseTicket(@PathVariable(value = "id") UUID ticketId){
         if(!isAuthorized()) throw AuthException.of("Unauthorized!");
