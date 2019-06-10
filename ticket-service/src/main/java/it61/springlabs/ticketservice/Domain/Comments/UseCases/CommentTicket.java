@@ -26,11 +26,13 @@ public class CommentTicket {
         this.getTicketUsecase = usecase;
     }
 
-    public Ticket Comment(CommentWriteDTO dto, UUID ticketId){
+    public Comment Comment(CommentWriteDTO dto, UUID ticketId){
         Ticket ticket = getTicketUsecase.getTicket(ticketId);
         Comment comment = new Comment(dto.getText(), dto.getFromId());
         repository.save(comment);
         ticket.getComments().add(comment);
-        return ticketRepository.save(ticket);
+        ticketRepository.save(ticket);
+
+        return comment;
     }
 }

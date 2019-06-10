@@ -78,12 +78,12 @@ public class TicketController {
     }
 
     @PutMapping(value = "/api/v1/ticket/comment")
-    public Response<TicketReadDto> CommentTicket
+    public Response<CommentReadDto> CommentTicket
             (
                     @RequestBody CommentWriteDTO comment
             ) {
-        Ticket res = commentTicket.Comment(comment, comment.getTicketId());
-        return Response.Of(ticketToDto(res, res.getComments()));
+        Comment c = commentTicket.Comment(comment, comment.getTicketId());
+        return Response.Of(new CommentReadDto(c.getId(), c.getText(), c.getFromId()));
     }
 
     @DeleteMapping(value = "/api/v1/ticket/{id}")

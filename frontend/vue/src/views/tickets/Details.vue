@@ -8,7 +8,7 @@
                 >
                 <v-toolbar-title>Ticket details</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn v-if="canClose" @click="closeTicket">
+                <v-btn color="error" v-if="canClose" @click="closeTicket">
                     <v-icon>close</v-icon>
                 </v-btn>
                 </v-toolbar>
@@ -25,12 +25,10 @@
                         <v-text-field readonly v-model="self.description" />
                     </v-flex>
                     <v-divider />
-                    <v-flex xs12>
-                        <Comment
-                            v-for="comment in comments"
-                            :key="comment.id"
+                    <v-flex xs12 v-for="comment in comments" :key="comment.id">
+                        <Comment 
                             :username="comment.username"
-                            :isMyMessage="comment.fromId === this.$store.state.auth.user_id"
+                            :isMyMessage="comment.fromId === $store.state.auth.user_id"
                             :text="comment.text"
                         />
                     </v-flex>
@@ -50,12 +48,21 @@
 
 <script>
 import Comment from "../../components/ticket/Comment"
+import SockJS from "sockjs-client"
+import Stomp from "webstomp-client"
 export default {
     components:{
         Comment
     },
+    data: () => ({
+        connected:false,
+        socket: null,
+        stompClient: null,
+        message: ""
+    }),
     created(){
         this.$store.commit("SET_LOADING",true)
+        this.connect()
         Promise.all([
             this.$store.dispatch("tickets/fetchById", this.$route.params.id),
             this.$store.dispatch("users/fetch")
@@ -80,10 +87,47 @@ export default {
     },
     methods:{
         closeTicket(){
-
+            this.stompClient.send("/app/ticket/close", JSON.stringify({
+                    ticketId: this.$route.params.id
+                }
+            ));
         },
         sendMessage(){
-
+            this.stompClient.send("/app/comment", JSON.stringify({
+                    ticketId: this.$route.params.id,
+                    text: this.message,
+                    fromId: this.$store.state.auth.user_id
+                })
+            );
+        },
+        connect(){
+            this.socket = new SockJS("/ws/info")
+            this.stompClient = Stomp.over(this.socket)
+            this.stompClient.connect(
+                {},
+                frame => {
+                this.connected = true
+                console.log(frame)
+                this.stompClient.subscribe("/topic/comments", tick => {
+                    this.handleCommentAdded(JSON.parse(tick.body))
+                 });
+                this.stompClient.subscribe("/topic/ticket/closed", tick => {
+                    this.handleTicketClosed(JSON.parse(tick.body))
+                 });
+                },
+                error => {
+                    console.log(error)
+                    this.connected = false
+                }
+            );
+        },
+        handleCommentAdded(tick){
+            this.$store.commit("tickets/ADD_COMMENT_TO_TICKET", {ticketId: this.$route.params.id,comment: tick.data})
+        },
+        handleTicketClosed(tick){
+            if(tick === this.$route.params.id){
+                this.$router.push({path: "/"})
+            }
         }
     }
 }

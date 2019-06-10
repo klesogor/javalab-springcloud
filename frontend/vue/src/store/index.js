@@ -6,6 +6,7 @@ import profile from "./profile"
 import users from "./users"
 import vps from "./vps"
 import tickets from "./tickets"
+import logs from "./logs"
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ export default new Vuex.Store({
     profile,
     users,
     vps,
-    tickets
+    tickets,
+    logs
   },
   plugins: [createPersistedState()]
 })

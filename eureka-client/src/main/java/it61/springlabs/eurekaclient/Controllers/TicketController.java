@@ -6,6 +6,7 @@ import it61.springlabs.data.dto.ticket.TicketWriteDto;
 import it61.springlabs.data.exceptions.AuthException;
 import it61.springlabs.data.generic.Response;
 import it61.springlabs.eurekaclient.Auth.JwtTokenDetails;
+import it61.springlabs.eurekaclient.Services.Logger;
 import it61.springlabs.eurekaclient.Services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,10 +17,12 @@ import java.util.UUID;
 @RestController
 public class TicketController {
     private TicketService service;
+    private Logger logger;
 
     @Autowired
-    public TicketController(TicketService service) {
+    public TicketController(TicketService service, Logger logger) {
         this.service = service;
+        this.logger = logger;
     }
 
     @GetMapping(value = "/api/v1/ticket/forVps/{vpsId}")
@@ -46,13 +49,8 @@ public class TicketController {
 
     @PostMapping(value = "/api/v1/ticket")
     Response<TicketReadDto> CreateTicket(@RequestBody TicketWriteDto dto){
+        logger.info("Creating new ticket");
         return service.CreateTicket(dto);
-    }
-
-    @DeleteMapping(value = "/api/v1/ticket/{id}")
-    void CloseTicket(@PathVariable(value = "id") UUID ticketId){
-        if(!isAuthorized()) throw AuthException.of("Unauthorized!");
-        service.CloseTicket(ticketId);
     }
 
     private boolean isAuthorized(){

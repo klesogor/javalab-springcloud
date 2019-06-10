@@ -1,6 +1,7 @@
 package it61.springlabs.eurekaclient.Services;
 
 import feign.Headers;
+import it61.springlabs.data.dto.ticket.CommentReadDto;
 import it61.springlabs.data.dto.ticket.CommentWriteDTO;
 import it61.springlabs.data.dto.ticket.TicketReadDto;
 import it61.springlabs.data.dto.ticket.TicketWriteDto;
@@ -33,7 +34,7 @@ public interface TicketService {
 
     @PutMapping(value = "/api/v1/ticket/comment")
     @Headers("Content-Type: application/json")
-    Response<TicketReadDto> CommentTicket(@RequestBody CommentWriteDTO comment);
+    Response<CommentReadDto> CommentTicket(@RequestBody CommentWriteDTO comment);
 
     @DeleteMapping(value = "/api/v1/ticket/{id}")
     @Headers("Content-Type: application/json")

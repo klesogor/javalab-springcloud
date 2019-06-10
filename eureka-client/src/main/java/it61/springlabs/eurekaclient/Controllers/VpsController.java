@@ -5,9 +5,8 @@ import it61.springlabs.data.dto.vps.VpsWriteDTO;
 import it61.springlabs.data.exceptions.AuthException;
 import it61.springlabs.data.generic.Response;
 import it61.springlabs.eurekaclient.Auth.JwtTokenDetails;
+import it61.springlabs.eurekaclient.Services.Logger;
 import it61.springlabs.eurekaclient.Services.VpsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +16,12 @@ import java.util.UUID;
 public final class VpsController implements CRUDControllerInterface<VpsReadDto, VpsWriteDTO> {
 
     private VpsService client;
+    private Logger logger;
     @Autowired
-    public VpsController(VpsService client)
+    public VpsController(VpsService client, Logger logger)
     {
         this.client = client;
+        this.logger = logger;
     }
 
     @Override
@@ -43,6 +44,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @ResponseBody
     public Response<VpsReadDto> create(@RequestBody VpsWriteDTO dto){
         if(!isAuthorized()) throw AuthException.of("Unauthorized!");
+        logger.info("Creating new vps");
         return client.createVps(dto);
     }
 
@@ -51,6 +53,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @ResponseBody
     public Response<VpsReadDto> update(@PathVariable(name = "id") UUID id, @RequestBody VpsWriteDTO dto){
         if(!isAuthorized()) throw AuthException.of("Unauthorized!");
+        logger.info("Updating vps " + id.toString());
         return client.updateVps(id,dto);
     }
 
@@ -59,6 +62,7 @@ public final class VpsController implements CRUDControllerInterface<VpsReadDto, 
     @ResponseBody
     public void delete(@PathVariable(name = "id") UUID id){
         if(!isAuthorized()) throw AuthException.of("Unauthorized!");
+        logger.info("Deleted vps " + id.toString());
         client.deleteVps(id);
     }
 

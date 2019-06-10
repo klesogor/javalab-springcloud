@@ -1,6 +1,6 @@
 package it61.springlabs.queueConsumer.App.MessageHandlers;
 
-import it61.springlabs.data.dto.utility.LogDTO;
+import it61.springlabs.data.dto.log.LogDto;
 import it61.springlabs.queueConsumer.dal.LogRepository;
 import it61.springlabs.queueConsumer.entities.Log;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -20,8 +20,8 @@ public class LogHandler {
     }
 
     @RabbitListener(queues = "logs")
-    public void Log(LogDTO dto){
+    public void Log(LogDto dto){
         logger.info("Adding log record...");
-        repository.save(new Log(dto.getEntity(),dto.getCreated()));
+        repository.save(new Log(dto.getData(),dto.getCreated()));
     }
 }

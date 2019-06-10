@@ -1,5 +1,5 @@
 <template> 
-    <v-container class="pa-4" grid-list-md>
+    <v-container class="pa-4" grid-list-md v-if="$store.state.is_loaded">
         <v-layout wrap>
                 <v-flex xs12>
                     <h2 class="display-1 mb-1">
@@ -54,7 +54,7 @@ export default {
         },
         tickets(){
             return this.$store.state.tickets.all.map(v => {
-                const vps = this.$store.state.vps[v.vpsId]
+                const vps = this.$store.state.vps.byId[v.vpsId]
                 const user = this.$store.state.users.byId[v.userId]
                 return {...v,creator: user.username, vps: vps.operatingSystem}
             })

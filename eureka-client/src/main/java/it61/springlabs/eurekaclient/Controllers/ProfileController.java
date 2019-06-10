@@ -5,6 +5,7 @@ import it61.springlabs.data.exceptions.NotFoundException;
 import it61.springlabs.data.generic.Response;
 import it61.springlabs.eurekaclient.Auth.JwtTokenDetails;
 import it61.springlabs.eurekaclient.Services.AuthService;
+import it61.springlabs.eurekaclient.Services.Logger;
 import it61.springlabs.eurekaclient.dal.AccountDetailsRepository;
 import it61.springlabs.eurekaclient.dal.UserRepository;
 import it61.springlabs.eurekaclient.entities.AccountDetails;
@@ -17,11 +18,13 @@ public class ProfileController {
     private UserRepository userRepo;
     private AuthService authService;
     private AccountDetailsRepository detailsRepo;
+    private Logger logger;
     @Autowired
-    public ProfileController(UserRepository repo, AuthService service, AccountDetailsRepository detailsRepo){
+    public ProfileController(UserRepository repo, AuthService service, AccountDetailsRepository detailsRepo, Logger logger){
         userRepo = repo;
         authService = service;
         this.detailsRepo = detailsRepo;
+        this.logger = logger;
     }
 
     @GetMapping(value = "/api/v1/me/profile")
@@ -36,6 +39,7 @@ public class ProfileController {
     @PutMapping(value = "/api/v1/me/profile")
     public void updateProfile(@RequestBody AccountDetailsDto dto){
         JwtTokenDetails jwtTokenDetails = (JwtTokenDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info("Updating account details for user " + jwtTokenDetails.getUserId().toString());
         AccountDetails details = userRepo.findById(jwtTokenDetails.getUserId()).orElseThrow(() -> NotFoundException.of(jwtTokenDetails.getUserId(),"user")).getAccountDetails();
         details.setAge(dto.getAge());
         details.setCity(dto.getCity());
@@ -49,6 +53,7 @@ public class ProfileController {
     @DeleteMapping(value = "/api/v1/me/profile")
     public void deleteProfile(){
         JwtTokenDetails jwtTokenDetails = (JwtTokenDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logger.info("Deleting user account  " + jwtTokenDetails.getUserId().toString());
         authService.DeleteUser(jwtTokenDetails.getUserId());
     }
 }

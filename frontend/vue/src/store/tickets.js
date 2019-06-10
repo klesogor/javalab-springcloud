@@ -13,6 +13,9 @@ const mutations = {
     ADD_TICKET: (state,ticket) => {
         state.all = [...state.all.filter(x => x.id !== ticket.id), ticket]
         state.byId[ticket.id] = ticket;
+    },
+    ADD_COMMENT_TO_TICKET: (state, {ticketId, comment}) => {
+        state.byId[ticketId].comments = [...state.byId[ticketId].comments, comment] 
     }
 }
 
